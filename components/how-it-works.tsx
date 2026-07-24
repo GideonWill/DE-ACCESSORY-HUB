@@ -29,8 +29,8 @@ export function HowItWorks() {
           Unique Patterns, Simple Ordering &amp; Upkeep
         </h2>
         <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
-          Customising your environment is effortless with Kingdom of Curtains. No matter your taste,
-          we offer a variety of styles \u2013 from abstract to traditional, modern, and international
+          Customising your environment is effortless with THE INTERIOR HUB. No matter your taste,
+          we offer a variety of styles – from abstract to traditional, modern, and international
           designs.
         </p>
       </div>

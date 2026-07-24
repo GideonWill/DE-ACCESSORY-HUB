@@ -96,27 +96,27 @@ export const partneredBrands = [
 
 export const faqs = [
   {
-    q: 'Do you offer a free home visit in Gurgaon & South Delhi?',
-    a: 'Yes \u2014 completely free home visits across Gurgaon and South Delhi. Our designer visits your home, measures every window, and shows you the full collection of fabrics and blinds on the spot. No charges, no commitment. We serve DLF Phase 1\u20135, Sohna Road, Golf Course Road, Sector 65, Dwarka Expressway, Vasant Kunj, Vasant Vihar, Saket, Hauz Khas, Greater Kailash, Defence Colony, and all NCR. Call or WhatsApp +91 98101 29384 to book.',
+    q: 'Do you offer a free home consultation?',
+    a: 'Yes — completely free doorstep consultations across Ghana. Our design specialists visit your home or business, measure every window, and show you the full collection of fabrics, blinds, and motorized systems on the spot. No charges, no commitment. Call or WhatsApp +233 54647 8040 to book.',
   },
   {
     q: 'Do you install curtains and blinds?',
-    a: 'Yes. Free professional installation is included with every single order at Kingdom of Curtains. Our trained team visits your home with all tools and hardware, installs curtain rods or blind tracks, hangs and adjusts everything, and does a complete cleanup before leaving. No installation charges. No hidden fees.',
+    a: 'Yes. Free professional installation is included with every single order at THE INTERIOR HUB. Our trained installation team handles all mounting, levels tracks/rods, and performs full operational checks. No hidden installation fees.',
   },
   {
     q: 'Which areas do you serve?',
-    a: 'All of Gurgaon \u2014 DLF Phase 1 to 5, Sohna Road, Golf Course Road, Sector 65, South City, Palam Vihar, Dwarka Expressway, Nirvana Country, Vatika City and all surrounding sectors. South Delhi \u2014 Vasant Kunj, Vasant Vihar, Saket, Hauz Khas, Greater Kailash, Defence Colony, Malviya Nagar, South Extension, New Friends Colony, Chattarpur. Also Noida, Greater Noida, and Faridabad.',
+    a: 'We serve residential and commercial clients across Accra and throughout Ghana. Contact us to schedule a home or office visit.',
   },
   {
     q: 'How long does delivery and installation take?',
-    a: 'Standard orders are ready within 7\u201310 working days from measurement to installation. Our team measures your windows on the home visit, fabricates everything to exact size, and returns for professional installation. For urgent requirements WhatsApp us at +91 98101 29384.',
+    a: 'Standard orders are custom-crafted and installed within 5–7 working days from initial measurement. For urgent requirements, WhatsApp us at +233 54647 8040.',
   },
   {
-    q: 'Do you sell motorised curtains?',
-    a: 'Yes. Kingdom of Curtains is one of the few stores in Gurgaon offering motorised curtain and blind systems. Control with remote, smartphone app, Alexa, or Google Home. Silent motors. Ideal for high-rise apartments with large windows. Free demo available on home visit. Free installation included.',
+    q: 'Do you offer smart motorised curtain and blind systems?',
+    a: 'Yes. THE INTERIOR HUB provides state-of-the-art motorized curtain and blind automation. Control your window treatments via remote control, mobile app, or smart home assistants like Alexa and Google Home.',
   },
   {
-    q: 'Can I get curtains custom-made to my window size?',
-    a: 'Yes. Every curtain and blind at Kingdom of Curtains is made to measure. Nothing is ready-made or generic. Our team visits your home, takes exact measurements of every window, and delivers a perfect custom fit with free professional installation.',
+    q: 'Can I get curtains and blinds custom-made to my exact window size?',
+    a: 'Yes. Every curtain, blind, and accessory at THE INTERIOR HUB is custom made-to-measure. Nothing is generic. Our team ensures a precision fit for your space.',
   },
 ]

@@ -22,9 +22,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { category } = await params
   const cat = getCategory(category)
-  if (!cat) return { title: 'Not Found | Kingdom Of Curtains' }
+  if (!cat) return { title: 'Not Found | THE INTERIOR HUB' }
   return {
-    title: `${cat.title} in Gurgaon & South Delhi | Kingdom Of Curtains`,
+    title: `${cat.title} | THE INTERIOR HUB`,
     description: cat.intro,
   }
 }
@@ -65,7 +65,7 @@ export default async function CategoryPage({
         {/* SEO content */}
         <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
           <h2 className="mb-8 font-serif text-2xl font-bold text-foreground md:text-3xl">
-            Shop from a vast collection at Kingdom of Curtains
+            Shop from a vast collection at THE INTERIOR HUB
           </h2>
           <div className="grid gap-8 md:grid-cols-2">
             {cat.seo.map((block) => (

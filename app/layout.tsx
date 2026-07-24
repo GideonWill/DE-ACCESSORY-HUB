@@ -17,10 +17,14 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'Curtain Shop In Gurgaon & South Delhi | Kingdom Of Curtains',
+  title: 'THE INTERIOR HUB | Custom Curtains, Blinds & Luxury Upholstery',
   description:
-    'Kingdom of Curtains is Gurgaon\u2019s most trusted curtain and blind store, serving Gurgaon & South Delhi since 2017. Free home visit, free installation, custom-made curtains, blinds and motorised systems.',
-  generator: 'v0.app',
+    'THE INTERIOR HUB is Ghana’s premier interior decor studio specializing in custom-made curtains, window blinds, smart motorized systems, and luxury upholstery. Free doorstep measurement and expert installation across Ghana.',
+  icons: {
+    icon: '/images/NEW LOGO.jpeg',
+    shortcut: '/images/NEW LOGO.jpeg',
+    apple: '/images/NEW LOGO.jpeg',
+  },
 }
 
 export const viewport: Viewport = {

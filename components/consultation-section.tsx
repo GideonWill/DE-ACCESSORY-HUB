@@ -10,41 +10,29 @@ export function ConsultationSection() {
     <section id="consultation" className="scroll-mt-20 bg-primary py-16 text-primary-foreground">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <h2 className="text-balance text-center font-serif text-2xl font-bold md:text-4xl">
-          Curtains &amp; Blinds in Gurgaon \u2014 Free Home Visit + Free Installation
+          Custom Curtains &amp; Window Blinds — Free Doorstep Consultation &amp; Installation
         </h2>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
           <div className="space-y-5 text-sm leading-relaxed text-primary-foreground/85">
             <h3 className="font-serif text-xl font-semibold text-primary-foreground">
-              Gurgaon&apos;s Most Trusted Curtain &amp; Blind Store \u2014 Serving Gurgaon &amp;
-              South Delhi Since 2017
+              THE INTERIOR HUB — Ghana&apos;s Premier Interior Decor &amp; Window Treatment Studio
             </h3>
             <p>
-              Kingdom of Curtains is Gurgaon&apos;s most trusted curtain and blind store \u2014
-              serving homes across Gurgaon and South Delhi since 2017. We offer free home visits
-              across all of Gurgaon and South Delhi. Our designer visits your home, measures every
-              window, and shows you the complete fabric and design collection on the spot. Free
-              installation is included with every order.
+              THE INTERIOR HUB is Ghana&apos;s premier interior decor studio specializing in luxury custom curtains, precision window blinds, motorized smart curtain systems, and premium upholstery fabrics. We offer complimentary doorstep consultations across Ghana — our design specialists visit your home or business, measure every window, and present curated fabric samples on the spot.
             </p>
             <p>
-              We stock blackout curtains, sheer curtains, zebra blinds, roller blinds, wooden
-              blinds, honeycomb blinds, vertical blinds, Roman blinds, and motorised curtains with
-              remote and app control. All curtains and blinds are custom-made to your exact window
-              size. Authorised dealers for: Asian Paints Beautiful Homes, D&apos;Decor, Aartex
-              Furnishings, KC Fabrics and Shivanaa Homes \u2014 all under one roof.
+              Explore our extensive range of blackout curtains, translucent sheers, zebra blinds, roller shades, wooden venetian blinds, honeycomb insulation blinds, Roman shades, and smart automated motorized systems with remote and smartphone controls. All products are bespoke, crafted to your exact specifications.
             </p>
             <p>
-              Serving Gurgaon: DLF Phase 1\u20135, Sohna Road, Golf Course Road, Sector 65, South
-              City, Palam Vihar, Dwarka Expressway and Vatika City. Serving South Delhi: Vasant Kunj,
-              Vasant Vihar, Saket, Hauz Khas, Greater Kailash, Defence Colony, Malviya Nagar and
-              Chattarpur. Also serving Noida, Greater Noida, and Faridabad.
+              Whether you are designing a contemporary residence, luxury apartment, commercial office, or hotel, THE INTERIOR HUB delivers unmatched elegance, durable craftsmanship, and seamless professional installation.
             </p>
             <div className="flex flex-wrap gap-6 pt-2">
+              <a href="tel:+233546478040" className="flex items-center gap-2 font-medium text-accent hover:underline">
+                <Phone className="h-4 w-4" /> +233 54647 8040
+              </a>
               <p className="flex items-center gap-2 font-medium text-accent">
-                <Phone className="h-4 w-4" /> +91 98101 29384
-              </p>
-              <p className="flex items-center gap-2 font-medium text-accent">
-                <Clock className="h-4 w-4" /> Open 7 days: 11:00 AM \u2013 8:30 PM
+                <Clock className="h-4 w-4" /> Mon – Sat: 8:00 AM – 6:00 PM
               </p>
             </div>
           </div>

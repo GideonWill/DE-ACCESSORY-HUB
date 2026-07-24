@@ -3,8 +3,8 @@ export function Logo({ className = '' }: { className?: string }) {
     <div className={`flex items-center gap-2 ${className}`}>
       <img
         src="/images/NEW LOGO.jpeg"
-        alt="DE-ACCESSORIES Logo"
-        className="h-10 md:h-12 w-auto max-w-[180px] rounded-md object-contain bg-white/95 p-1 shadow-sm transition-opacity hover:opacity-95"
+        alt="THE INTERIOR HUB Logo"
+        className="h-14 md:h-18 w-auto max-w-[240px] rounded-lg object-contain bg-white p-1 shadow-sm transition-transform hover:scale-105"
       />
     </div>
   )

@@ -15,18 +15,18 @@ export function SiteHeader() {
 
   return (
     <header
-      className="sticky top-0 z-50 bg-primary text-primary-foreground shadow-md"
+      className="sticky top-0 z-50 bg-white text-[#5d1019] border-b border-border/50 shadow-sm"
       onMouseLeave={() => setActiveMenu(null)}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
-        <Link href="/" aria-label="Kingdom Of Curtains home" onMouseEnter={() => setActiveMenu(null)}>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 lg:px-8">
+        <Link href="/" aria-label="THE INTERIOR HUB home" onMouseEnter={() => setActiveMenu(null)}>
           <Logo />
         </Link>
 
         <nav className="hidden items-center lg:flex" aria-label="Main navigation">
           <button
             aria-label="Search"
-            className="mr-3 rounded-full p-2 transition-colors hover:bg-white/10"
+            className="mr-3 rounded-full p-2 text-[#5d1019] transition-colors hover:bg-muted"
             onMouseEnter={() => setActiveMenu(null)}
           >
             <Search className="h-5 w-5" />
@@ -38,8 +38,8 @@ export function SiteHeader() {
             >
               <Link
                 href={item.href}
-                className={`flex items-center gap-1 border-l border-white/15 px-4 py-2 text-sm font-medium tracking-wide transition-colors hover:text-accent ${
-                  activeMenu === item.label ? 'text-accent' : ''
+                className={`flex items-center gap-1 border-l border-[#5d1019]/20 px-4 py-2 text-sm font-semibold tracking-wide text-[#5d1019] transition-colors hover:text-[#a12c3b] ${
+                  activeMenu === item.label ? 'text-[#a12c3b]' : ''
                 }`}
               >
                 {item.label}
@@ -56,7 +56,7 @@ export function SiteHeader() {
         </nav>
 
         <button
-          className="rounded-md p-2 transition-colors hover:bg-white/10 lg:hidden"
+          className="rounded-md p-2 text-[#5d1019] transition-colors hover:bg-muted lg:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
@@ -107,15 +107,15 @@ export function SiteHeader() {
 
       {/* Mobile menu */}
       {open && (
-        <nav className="border-t border-white/10 lg:hidden" aria-label="Mobile navigation">
+        <nav className="border-t border-border bg-white text-[#5d1019] lg:hidden" aria-label="Mobile navigation">
           <ul className="flex flex-col px-4 py-2">
             {navItems.map((item) => (
-              <li key={item.label} className="border-b border-white/10">
+              <li key={item.label} className="border-b border-border/60">
                 <div className="flex items-center justify-between">
                   <Link
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="flex-1 py-3 text-sm font-medium tracking-wide"
+                    className="flex-1 py-3 text-sm font-semibold tracking-wide text-[#5d1019]"
                   >
                     {item.label}
                   </Link>
@@ -125,7 +125,7 @@ export function SiteHeader() {
                         setOpenSub((v) => (v === item.label ? null : item.label))
                       }
                       aria-label={`Toggle ${item.label} submenu`}
-                      className="p-3"
+                      className="p-3 text-[#5d1019]"
                     >
                       <ChevronDown
                         className={`h-4 w-4 transition-transform ${
@@ -144,14 +144,14 @@ export function SiteHeader() {
                           onClick={() => setOpen(false)}
                           className="block"
                         >
-                          <div className="overflow-hidden rounded-lg border border-white/15">
+                          <div className="overflow-hidden rounded-lg border border-border">
                             <img
                               src={child.image || '/placeholder.svg'}
                               alt={child.label}
                               className="aspect-[3/4] w-full object-cover"
                             />
                           </div>
-                          <p className="mt-1.5 text-center text-xs text-primary-foreground/90">
+                          <p className="mt-1.5 text-center text-xs font-medium text-[#5d1019]">
                             {child.label}
                           </p>
                         </Link>
