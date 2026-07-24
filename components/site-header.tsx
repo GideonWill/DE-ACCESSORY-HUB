@@ -11,7 +11,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [openSub, setOpenSub] = useState<string | null>(null)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
-  const { totalCount, openCart } = useCart()
+  const { totalCount, openCart, openSearch } = useCart()
 
   const activeItem = navItems.find((i) => i.label === activeMenu && i.children)
 
@@ -27,7 +27,8 @@ export function SiteHeader() {
 
         <nav className="hidden items-center lg:flex" aria-label="Main navigation">
           <button
-            aria-label="Search"
+            onClick={openSearch}
+            aria-label="Search catalog"
             className="mr-3 rounded-full p-2 text-[#5d1019] transition-colors hover:bg-muted"
             onMouseEnter={() => setActiveMenu(null)}
           >
@@ -58,6 +59,14 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={openSearch}
+            aria-label="Search catalog"
+            className="rounded-full p-2.5 text-[#5d1019] transition-all hover:bg-muted lg:hidden"
+          >
+            <Search className="h-5 w-5" />
+          </button>
+
           <button
             onClick={openCart}
             aria-label="Shopping Cart"

@@ -36,6 +36,7 @@ import { CartProvider } from '@/lib/cart-context'
 import { CartDrawer } from '@/components/cart-drawer'
 import { CheckoutModal } from '@/components/checkout-modal'
 import { ProductModal } from '@/components/product-modal'
+import { SearchModal } from '@/components/search-modal'
 
 export default function RootLayout({
   children,
@@ -50,6 +51,7 @@ export default function RootLayout({
           <CartDrawer />
           <CheckoutModal />
           <ProductModal />
+          <SearchModal />
         </CartProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

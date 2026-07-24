@@ -35,6 +35,9 @@ type CartContextType = {
   isCheckoutOpen: boolean
   openCheckout: () => void
   closeCheckout: () => void
+  isSearchOpen: boolean
+  openSearch: () => void
+  closeSearch: () => void
   activeProduct: ProductView | null
   openProductModal: (product: ProductView) => void
   closeProductModal: () => void
@@ -54,6 +57,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [activeProduct, setActiveProduct] = useState<ProductView | null>(null)
   const [mounted, setMounted] = useState(false)
 
@@ -177,6 +181,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           setIsCheckoutOpen(true)
         },
         closeCheckout: () => setIsCheckoutOpen(false),
+        isSearchOpen,
+        openSearch: () => setIsSearchOpen(true),
+        closeSearch: () => setIsSearchOpen(false),
         activeProduct,
         openProductModal,
         closeProductModal,
