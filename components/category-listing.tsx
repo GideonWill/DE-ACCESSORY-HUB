@@ -5,11 +5,11 @@ import { formatPrice, type Category } from '@/lib/catalog'
 
 const priceRanges = [
   { label: 'All', min: 0, max: Infinity },
-  { label: '\u20B90 – \u20B9500', min: 0, max: 500 },
-  { label: '\u20B9500 – \u20B91,500', min: 500, max: 1500 },
-  { label: '\u20B91,500 – \u20B93,000', min: 1500, max: 3000 },
-  { label: '\u20B93,000 – \u20B96,000', min: 3000, max: 6000 },
-  { label: '\u20B96,000+', min: 6000, max: Infinity },
+  { label: 'GH₵0 – GH₵100', min: 0, max: 100 },
+  { label: 'GH₵100 – GH₵250', min: 100, max: 250 },
+  { label: 'GH₵250 – GH₵500', min: 250, max: 500 },
+  { label: 'GH₵500 – GH₵1,000', min: 500, max: 1000 },
+  { label: 'GH₵1,000+', min: 1000, max: Infinity },
 ]
 
 export function CategoryListing({
