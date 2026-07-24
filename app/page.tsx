@@ -2,7 +2,6 @@ import { SiteHeader } from '@/components/site-header'
 import { HeroCarousel } from '@/components/hero-carousel'
 import { PromoBanner } from '@/components/promo-banner'
 import { ProductSection } from '@/components/product-section'
-import { PartneredBrands } from '@/components/partnered-brands'
 import { HowItWorks } from '@/components/how-it-works'
 import { Testimonials } from '@/components/testimonials'
 import { ConsultationSection } from '@/components/consultation-section'
@@ -22,8 +21,6 @@ export default function Page() {
         {productSections.slice(0, 4).map((section) => (
           <ProductSection key={section.id} section={section} />
         ))}
-
-        <PartneredBrands />
 
         {productSections.slice(4).map((section) => (
           <ProductSection key={section.id} section={section} />

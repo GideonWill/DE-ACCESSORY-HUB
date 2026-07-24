@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import { SiteHeader } from '@/components/site-header'
 import { PromoBanner } from '@/components/promo-banner'
 import { CategoryListing } from '@/components/category-listing'
-import { PartneredBrands } from '@/components/partnered-brands'
 import { Testimonials } from '@/components/testimonials'
 import { ConsultationSection } from '@/components/consultation-section'
 import { FaqSection } from '@/components/faq-section'
@@ -60,7 +59,6 @@ export default async function CategoryPage({
         <CategoryListing category={cat} initialType={type} />
 
         <PromoBanner />
-        <PartneredBrands />
 
         {/* SEO content */}
         <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
