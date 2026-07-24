@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { X, CheckCircle2, ShieldCheck, CreditCard, Smartphone, Truck, ChevronLeft, Lock } from 'lucide-react'
+import { X, CheckCircle2, ShieldCheck, CreditCard, Truck, Lock, ArrowRight, Smartphone, AlertCircle } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
 import { formatPrice } from '@/lib/catalog'
 
@@ -49,15 +49,20 @@ export function CheckoutModal() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="relative w-full max-w-3xl rounded-2xl bg-card shadow-2xl overflow-hidden border border-border">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-border bg-white text-[#5d1019] px-6 py-4">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="h-5 w-5 text-[#5d1019]" />
-            <h2 className="font-serif text-xl font-bold">
-              {step === 'form' ? 'Checkout & Order' : 'Order Confirmed'}
-            </h2>
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+      <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl bg-card shadow-2xl overflow-hidden border border-border animate-in fade-in zoom-in duration-200">
+        {/* Modal Top Header */}
+        <div className="flex items-center justify-between border-b border-border bg-white text-[#5d1019] px-6 py-4 shrink-0">
+          <div className="flex items-center gap-2.5">
+            <ShieldCheck className="h-6 w-6 text-[#5d1019]" />
+            <div>
+              <h2 className="font-serif text-lg sm:text-xl font-bold leading-tight">
+                {step === 'form' ? 'THE INTERIOR HUB — Secure Checkout' : 'Order Successfully Placed'}
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                {step === 'form' ? 'Complete your order for custom window measurement & installation' : 'Confirmation details'}
+              </p>
+            </div>
           </div>
           <button
             onClick={closeCheckout}
@@ -69,18 +74,23 @@ export function CheckoutModal() {
         </div>
 
         {step === 'form' ? (
-          <form onSubmit={handlePlaceOrder} className="p-6">
+          <form onSubmit={handlePlaceOrder} className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
             <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr]">
-              {/* Form Fields */}
+              {/* Form Input Columns */}
               <div className="space-y-6">
                 <div>
-                  <h3 className="font-serif text-base font-semibold text-foreground border-b border-border pb-2">
-                    1. Contact &amp; Delivery Information
-                  </h3>
+                  <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                      1
+                    </span>
+                    <h3 className="font-serif text-base font-bold text-foreground">
+                      Customer &amp; Delivery Details
+                    </h3>
+                  </div>
 
                   <div className="mt-4 space-y-4">
                     <div>
-                      <label className="mb-1 block text-xs font-semibold text-foreground uppercase tracking-wide">
+                      <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
                         Full Name *
                       </label>
                       <input
@@ -88,14 +98,14 @@ export function CheckoutModal() {
                         required
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        placeholder="e.g. Kwame Mensah"
-                        className="w-full rounded-lg border border-input bg-background px-3.5 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                        placeholder="Kwame Mensah"
+                        className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                       />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="mb-1 block text-xs font-semibold text-foreground uppercase tracking-wide">
+                        <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
                           Email Address *
                         </label>
                         <input
@@ -104,12 +114,12 @@ export function CheckoutModal() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="kwame@example.com"
-                          className="w-full rounded-lg border border-input bg-background px-3.5 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                          className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                         />
                       </div>
                       <div>
-                        <label className="mb-1 block text-xs font-semibold text-foreground uppercase tracking-wide">
-                          Phone Number *
+                        <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
+                          Phone / WhatsApp Number *
                         </label>
                         <input
                           type="tel"
@@ -117,14 +127,14 @@ export function CheckoutModal() {
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="+233 54 647 8040"
-                          className="w-full rounded-lg border border-input bg-background px-3.5 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                          className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-xs font-semibold text-foreground uppercase tracking-wide">
-                        Street Address / Landmark *
+                      <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
+                        Street Address / House No. / Landmark *
                       </label>
                       <input
                         type="text"
@@ -132,183 +142,201 @@ export function CheckoutModal() {
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         placeholder="House No., Street Name, Landmark"
-                        className="w-full rounded-lg border border-input bg-background px-3.5 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                        className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                       />
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-xs font-semibold text-foreground uppercase tracking-wide">
-                        Region *
+                      <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
+                        Ghana Region / City *
                       </label>
                       <select
                         value={region}
                         onChange={(e) => setRegion(e.target.value)}
-                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                        className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                       >
-                        <option value="Greater Accra">Greater Accra Region</option>
-                        <option value="Ashanti">Ashanti Region (Kumasi)</option>
-                        <option value="Western">Western Region (Takoradi)</option>
-                        <option value="Central">Central Region (Cape Coast)</option>
-                        <option value="Eastern">Eastern Region (Koforidua)</option>
-                        <option value="Northern">Northern Region (Tamale)</option>
-                        <option value="Volta">Volta Region (Ho)</option>
-                        <option value="Bono">Bono Region (Sunyani)</option>
-                        <option value="Other">Other Ghana Location</option>
+                        <option value="Greater Accra">Greater Accra Region (Accra, Tema, Madina, etc.)</option>
+                        <option value="Ashanti">Ashanti Region (Kumasi, Obuasi, etc.)</option>
+                        <option value="Western">Western Region (Takoradi, Sekondi, etc.)</option>
+                        <option value="Central">Central Region (Cape Coast, Winneba, etc.)</option>
+                        <option value="Eastern">Eastern Region (Koforidua, Aburi, etc.)</option>
+                        <option value="Northern">Northern Region (Tamale, Yendi, etc.)</option>
+                        <option value="Volta">Volta Region (Ho, Keta, etc.)</option>
+                        <option value="Bono">Bono Region (Sunyani, Techiman, etc.)</option>
+                        <option value="Other">Other Region in Ghana</option>
                       </select>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-base font-semibold text-foreground border-b border-border pb-2">
-                    2. Payment Option
-                  </h3>
+                  <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                      2
+                    </span>
+                    <h3 className="font-serif text-base font-bold text-foreground">
+                      Payment Method
+                    </h3>
+                  </div>
 
-                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="mt-4 space-y-3">
                     <label
-                      className={`flex cursor-pointer flex-col rounded-xl border p-4 transition-all ${
+                      className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-all ${
                         paymentMethod === 'paystack'
-                          ? 'border-primary bg-primary/5 shadow-sm'
+                          ? 'border-primary bg-primary/5 shadow-sm ring-2 ring-primary/20'
                           : 'border-border bg-background hover:border-primary/50'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="flex items-center gap-2 font-semibold text-sm text-foreground">
-                          <CreditCard className="h-4 w-4 text-primary" /> Paystack Online
-                        </span>
-                        <input
-                          type="radio"
-                          name="payment"
-                          checked={paymentMethod === 'paystack'}
-                          onChange={() => setPaymentMethod('paystack')}
-                          className="accent-primary"
-                        />
+                      <input
+                        type="radio"
+                        name="payment"
+                        checked={paymentMethod === 'paystack'}
+                        onChange={() => setPaymentMethod('paystack')}
+                        className="mt-1 accent-primary"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="flex items-center gap-2 font-bold text-sm text-foreground">
+                            <CreditCard className="h-4 w-4 text-primary" /> Paystack Ghana (Card &amp; Mobile Money)
+                          </span>
+                          <span className="rounded-md bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                            RECOMMENDED
+                          </span>
+                        </div>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          Secure online payment via Paystack: MTN MoMo, Telecel Cash, AT Money, Visa &amp; Mastercard.
+                        </p>
                       </div>
-                      <span className="mt-2 text-xs text-muted-foreground">
-                        Card / Mobile Money (MTN MoMo, Telecel Cash, AT Money).
-                      </span>
                     </label>
 
                     <label
-                      className={`flex cursor-pointer flex-col rounded-xl border p-4 transition-all ${
+                      className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-all ${
                         paymentMethod === 'cod'
-                          ? 'border-primary bg-primary/5 shadow-sm'
+                          ? 'border-primary bg-primary/5 shadow-sm ring-2 ring-primary/20'
                           : 'border-border bg-background hover:border-primary/50'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="flex items-center gap-2 font-semibold text-sm text-foreground">
-                          <Truck className="h-4 w-4 text-primary" /> Pay on Delivery
+                      <input
+                        type="radio"
+                        name="payment"
+                        checked={paymentMethod === 'cod'}
+                        onChange={() => setPaymentMethod('cod')}
+                        className="mt-1 accent-primary"
+                      />
+                      <div className="flex-1">
+                        <span className="flex items-center gap-2 font-bold text-sm text-foreground">
+                          <Truck className="h-4 w-4 text-primary" /> Pay on Doorstep Delivery
                         </span>
-                        <input
-                          type="radio"
-                          name="payment"
-                          checked={paymentMethod === 'cod'}
-                          onChange={() => setPaymentMethod('cod')}
-                          className="accent-primary"
-                        />
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          Pay via Mobile Money or Cash when our team arrives for doorstep installation.
+                        </p>
                       </div>
-                      <span className="mt-2 text-xs text-muted-foreground">
-                        Pay upon doorstep delivery &amp; free installation.
-                      </span>
                     </label>
                   </div>
                 </div>
               </div>
 
-              {/* Order Summary Sidebar */}
-              <div className="flex flex-col justify-between rounded-xl border border-border bg-muted/40 p-5">
+              {/* Summary Sidebar Card */}
+              <div className="flex flex-col justify-between rounded-2xl border border-border bg-muted/40 p-5 lg:p-6 shadow-sm">
                 <div>
-                  <h3 className="font-serif text-base font-bold text-foreground border-b border-border pb-2">
+                  <h3 className="font-serif text-base font-bold text-foreground border-b border-border pb-3">
                     Order Summary ({items.length} {items.length === 1 ? 'item' : 'items'})
                   </h3>
 
-                  <div className="mt-4 max-h-60 overflow-y-auto space-y-3 pr-1">
-                    {items.map((item) => (
-                      <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
-                        <div className="flex items-center gap-2.5">
-                          <img
-                            src={item.image || '/placeholder.svg'}
-                            alt={item.name}
-                            className="h-10 w-10 rounded-md object-cover border border-border"
-                          />
-                          <div>
-                            <p className="font-semibold text-foreground line-clamp-1">{item.name}</p>
-                            <p className="text-muted-foreground">Qty: {item.quantity}</p>
+                  <div className="mt-4 max-h-64 overflow-y-auto space-y-3 pr-1">
+                    {items.length === 0 ? (
+                      <p className="text-xs text-muted-foreground py-4 text-center">Your cart is empty.</p>
+                    ) : (
+                      items.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={item.image || '/placeholder.svg'}
+                              alt={item.name}
+                              className="h-11 w-11 rounded-lg object-cover border border-border bg-white"
+                            />
+                            <div>
+                              <p className="font-bold text-foreground line-clamp-1">{item.name}</p>
+                              <p className="text-muted-foreground text-[11px]">{item.brand} • Qty: {item.quantity}</p>
+                            </div>
                           </div>
+                          <span className="font-bold text-foreground shrink-0">
+                            {formatPrice(item.price * item.quantity)}
+                          </span>
                         </div>
-                        <span className="font-bold text-foreground shrink-0">
-                          {formatPrice(item.price * item.quantity)}
-                        </span>
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </div>
 
-                  <div className="mt-6 border-t border-border pt-3 space-y-2 text-xs">
+                  <div className="mt-6 border-t border-border pt-4 space-y-2.5 text-xs">
                     <div className="flex justify-between text-muted-foreground">
                       <span>Subtotal</span>
-                      <span className="font-semibold text-foreground">{formatPrice(subtotal)}</span>
+                      <span className="font-bold text-foreground">{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground">
-                      <span>Delivery &amp; Installation</span>
-                      <span className="font-semibold text-emerald-600">FREE</span>
+                      <span>Doorstep Measurement &amp; Fitting</span>
+                      <span className="font-bold text-emerald-600">FREE</span>
                     </div>
-                    <div className="border-t border-border pt-2 flex justify-between text-sm font-bold text-foreground">
+                    <div className="border-t border-border pt-3 flex justify-between text-base font-bold text-foreground">
                       <span>Total Amount</span>
-                      <span className="text-base text-primary">{formatPrice(subtotal)}</span>
+                      <span className="text-xl text-primary">{formatPrice(subtotal)}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 space-y-3">
+                <div className="mt-8 space-y-3">
                   <button
                     type="submit"
                     disabled={isSubmitting || items.length === 0}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 font-serif text-base font-bold text-accent-foreground shadow-lg transition-all hover:scale-[1.02] hover:brightness-105 disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-4 font-serif text-base font-bold text-accent-foreground shadow-xl transition-all hover:scale-[1.02] hover:brightness-105 disabled:opacity-50"
                   >
                     <Lock className="h-4 w-4" />
                     <span>
                       {isSubmitting
                         ? 'Processing Order...'
                         : paymentMethod === 'paystack'
-                        ? `Pay ${formatPrice(subtotal)} with Paystack`
+                        ? `Pay ${formatPrice(subtotal)} via Paystack`
                         : 'Confirm & Place Order'}
                     </span>
                   </button>
 
-                  <p className="text-center text-[11px] text-muted-foreground">
-                    🔒 SSL Encrypted &amp; Secured Purchase
-                  </p>
+                  <div className="flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-foreground">
+                    <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                    <span>Paystack SSL Encrypted &amp; 100% Guaranteed</span>
+                  </div>
                 </div>
               </div>
             </div>
           </form>
         ) : (
-          /* Order Success State */
-          <div className="p-8 text-center space-y-6">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+          /* Confirmation Success State */
+          <div className="p-8 sm:p-12 text-center space-y-6">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 shadow-inner">
               <CheckCircle2 className="h-12 w-12" />
             </div>
 
             <div>
-              <h3 className="font-serif text-2xl font-bold text-foreground">Thank You For Your Order!</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Your order has been successfully created.
+              <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 border border-emerald-200">
+                ORDER SUCCESSFUL
+              </span>
+              <h3 className="mt-3 font-serif text-3xl font-bold text-foreground">Thank You For Your Order!</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Your order has been created and registered with THE INTERIOR HUB.
               </p>
-              <div className="mt-4 inline-block rounded-lg bg-primary/10 px-4 py-2 text-sm font-bold text-primary border border-primary/20">
+              <div className="mt-4 inline-block rounded-xl bg-primary/10 px-5 py-2.5 text-base font-bold text-primary border border-primary/20 shadow-sm">
                 Order Reference: {orderRef}
               </div>
             </div>
 
-            <div className="mx-auto max-w-md rounded-xl border border-border bg-muted/30 p-4 text-left text-xs space-y-2 text-muted-foreground">
-              <p className="font-semibold text-foreground text-sm">What happens next?</p>
-              <p>• A confirmation summary has been registered for <strong>{fullName || 'valued customer'}</strong>.</p>
-              <p>• Our installation specialist will contact you shortly at <strong>{phone || '+233 ...'}</strong> to arrange your free doorstep measurement and installation.</p>
+            <div className="mx-auto max-w-md rounded-2xl border border-border bg-muted/40 p-5 text-left text-xs space-y-3 text-muted-foreground">
+              <p className="font-bold text-foreground text-sm border-b border-border/80 pb-2">What happens next?</p>
+              <p>• A confirmation receipt has been saved for <strong>{fullName || 'valued customer'}</strong> ({email}).</p>
+              <p>• Our Ghana installation manager will call/WhatsApp you shortly at <strong>{phone || '+233 ...'}</strong> to schedule your free doorstep window measurement.</p>
             </div>
 
             <button
               onClick={handleFinish}
-              className="rounded-xl bg-primary px-8 py-3 font-serif text-sm font-bold text-primary-foreground shadow-md transition-all hover:brightness-110"
+              className="rounded-xl bg-primary px-8 py-3.5 font-serif text-sm font-bold text-primary-foreground shadow-lg transition-all hover:scale-105 hover:brightness-110"
             >
               Continue Shopping
             </button>

@@ -35,6 +35,7 @@ export const viewport: Viewport = {
 import { CartProvider } from '@/lib/cart-context'
 import { CartDrawer } from '@/components/cart-drawer'
 import { CheckoutModal } from '@/components/checkout-modal'
+import { ProductModal } from '@/components/product-modal'
 
 export default function RootLayout({
   children,
@@ -48,6 +49,7 @@ export default function RootLayout({
           {children}
           <CartDrawer />
           <CheckoutModal />
+          <ProductModal />
         </CartProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
