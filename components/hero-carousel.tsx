@@ -29,17 +29,24 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="relative isolate flex min-h-[420px] items-center justify-center overflow-hidden md:min-h-[560px]"
+      className="relative isolate flex min-h-[480px] items-center justify-center overflow-hidden md:min-h-[620px]"
       aria-roledescription="carousel"
       aria-label="Featured offers"
     >
-      <img
-        src="/images/hero-living-room.png"
-        alt="Bright living room with elegant blinds and sheer curtains"
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
         className="absolute inset-0 -z-10 h-full w-full object-cover"
-      />
+      >
+        <source src="/videos/HOMEPAGE HERO VIDEO.mp4" type="video/mp4" />
+      </video>
 
-      <div className="mx-4 w-full max-w-2xl rounded-md bg-background/75 px-6 py-10 text-center backdrop-blur-sm md:px-12 md:py-14">
+      {/* Dark overlay for enhanced text readability */}
+      <div className="absolute inset-0 -z-10 bg-black/40 backdrop-brightness-95" />
+
+      <div className="mx-4 w-full max-w-2xl rounded-xl border border-white/20 bg-background/80 px-6 py-10 text-center shadow-2xl backdrop-blur-md md:px-12 md:py-14">
         <h2 className="text-balance font-serif text-3xl font-bold leading-tight text-foreground md:text-5xl">
           {slides[index].title}
         </h2>
@@ -48,7 +55,7 @@ export function HeroCarousel() {
         </p>
         <a
           href="#consultation"
-          className="mt-7 inline-block rounded-md bg-accent px-8 py-3 font-serif text-lg text-accent-foreground shadow transition-colors hover:brightness-95"
+          className="mt-7 inline-block rounded-md bg-accent px-8 py-3 font-serif text-lg text-accent-foreground shadow-md transition-all hover:scale-105 hover:brightness-95"
         >
           {slides[index].cta}
         </a>
@@ -57,26 +64,26 @@ export function HeroCarousel() {
       <button
         onClick={prev}
         aria-label="Previous slide"
-        className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/70 p-2 text-foreground transition-colors hover:bg-background"
+        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-background/70 p-3 text-foreground shadow transition-colors hover:bg-background"
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-6 w-6" />
       </button>
       <button
         onClick={next}
         aria-label="Next slide"
-        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/70 p-2 text-foreground transition-colors hover:bg-background"
+        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-background/70 p-3 text-foreground shadow transition-colors hover:bg-background"
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-6 w-6" />
       </button>
 
-      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+      <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setIndex(i)}
             aria-label={`Go to slide ${i + 1}`}
-            className={`h-2.5 w-2.5 rounded-full transition-colors ${
-              i === index ? 'bg-accent' : 'bg-background/60'
+            className={`h-3 w-3 rounded-full transition-all ${
+              i === index ? 'w-8 bg-accent' : 'bg-white/60 hover:bg-white'
             }`}
           />
         ))}
