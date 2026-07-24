@@ -44,18 +44,18 @@ export function HeroCarousel() {
       </video>
 
       {/* Dark overlay for enhanced text readability */}
-      <div className="absolute inset-0 -z-10 bg-black/40 backdrop-brightness-95" />
+      <div className="absolute inset-0 -z-10 bg-black/45" />
 
-      <div className="mx-4 w-full max-w-2xl rounded-xl border border-white/20 bg-background/80 px-6 py-10 text-center shadow-2xl backdrop-blur-md md:px-12 md:py-14">
-        <h2 className="text-balance font-serif text-3xl font-bold leading-tight text-foreground md:text-5xl">
+      <div className="mx-4 w-full max-w-3xl px-4 text-center text-white">
+        <h2 className="text-balance font-serif text-3xl font-bold leading-tight text-white drop-shadow-lg md:text-5xl lg:text-6xl">
           {slides[index].title}
         </h2>
-        <p className="mx-auto mt-5 max-w-lg text-pretty leading-relaxed text-muted-foreground">
+        <p className="mx-auto mt-5 max-w-xl text-pretty text-base font-medium leading-relaxed text-white/90 drop-shadow md:text-lg">
           {slides[index].text}
         </p>
         <a
           href="#consultation"
-          className="mt-7 inline-block rounded-md bg-accent px-8 py-3 font-serif text-lg text-accent-foreground shadow-md transition-all hover:scale-105 hover:brightness-95"
+          className="mt-8 inline-block rounded-lg bg-accent px-8 py-3.5 font-serif text-lg font-semibold text-accent-foreground shadow-xl transition-all hover:scale-105 hover:brightness-110"
         >
           {slides[index].cta}
         </a>

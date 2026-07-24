@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     'THE INTERIOR HUB is Ghana’s premier interior decor studio specializing in custom-made curtains, window blinds, smart motorized systems, and luxury upholstery. Free doorstep measurement and expert installation across Ghana.',
   icons: {
-    icon: '/images/NEW LOGO.jpeg',
-    shortcut: '/images/NEW LOGO.jpeg',
-    apple: '/images/NEW LOGO.jpeg',
+    icon: '/images/NEW LOGO.png',
+    shortcut: '/images/NEW LOGO.png',
+    apple: '/images/NEW LOGO.png',
   },
 }
 

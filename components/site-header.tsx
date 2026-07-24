@@ -15,7 +15,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className="sticky top-0 z-50 bg-white text-[#5d1019] border-b border-border/50 shadow-sm"
+      className="sticky top-0 z-50 bg-white/90 backdrop-blur-md text-[#5d1019] border-b border-border/40 shadow-sm transition-all duration-200"
       onMouseLeave={() => setActiveMenu(null)}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 lg:px-8">
