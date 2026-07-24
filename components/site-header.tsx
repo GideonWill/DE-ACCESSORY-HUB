@@ -2,14 +2,16 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, ChevronDown, Menu, X } from 'lucide-react'
+import { Search, ChevronDown, Menu, X, ShoppingBag } from 'lucide-react'
 import { Logo } from './logo'
 import { navItems } from '@/lib/navigation'
+import { useCart } from '@/lib/cart-context'
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [openSub, setOpenSub] = useState<string | null>(null)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
+  const { totalCount, openCart } = useCart()
 
   const activeItem = navItems.find((i) => i.label === activeMenu && i.children)
 
@@ -55,14 +57,29 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <button
-          className="rounded-md p-2 text-[#5d1019] transition-colors hover:bg-muted lg:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={openCart}
+            aria-label="Shopping Cart"
+            className="relative flex items-center justify-center rounded-full p-2.5 text-[#5d1019] transition-all hover:bg-muted"
+          >
+            <ShoppingBag className="h-6 w-6 text-[#5d1019]" />
+            {totalCount > 0 && (
+              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground shadow-md">
+                {totalCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            className="rounded-md p-2 text-[#5d1019] transition-colors hover:bg-muted lg:hidden"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Desktop mega menu */}

@@ -32,6 +32,10 @@ export const viewport: Viewport = {
   themeColor: '#5d1019',
 }
 
+import { CartProvider } from '@/lib/cart-context'
+import { CartDrawer } from '@/components/cart-drawer'
+import { CheckoutModal } from '@/components/checkout-modal'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,7 +44,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${poppins.variable} bg-background`}>
       <body className="font-sans antialiased">
-        {children}
+        <CartProvider>
+          {children}
+          <CartDrawer />
+          <CheckoutModal />
+        </CartProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

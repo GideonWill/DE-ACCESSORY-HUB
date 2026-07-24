@@ -46,4 +46,5 @@ export const navItems: NavItem[] = [
     ],
   },
   { label: 'UPHOLSTERY', href: '/products/upholstery' },
+  { label: 'CONTACT US', href: '/contact' },
 ]
