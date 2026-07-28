@@ -1,11 +1,19 @@
 'use client'
 
-import { ShoppingBag, Heart, Eye } from 'lucide-react'
+import { useState } from 'react'
+import { ShoppingBag, Heart, Eye, Check } from 'lucide-react'
 import type { ProductSection as ProductSectionType } from '@/lib/products'
 import { useCart } from '@/lib/cart-context'
 
 export function ProductSection({ section }: { section: ProductSectionType }) {
   const { addItem, openProductModal, toggleFavorite, isFavorite } = useCart()
+  const [addedId, setAddedId] = useState<string | null>(null)
+
+  const handleAdd = (productObj: any) => {
+    addItem(productObj)
+    setAddedId(productObj.id)
+    setTimeout(() => setAddedId(null), 1500)
+  }
 
   return (
     <section id={section.id} className="mx-auto max-w-7xl scroll-mt-20 px-4 py-10 lg:px-8">
@@ -29,6 +37,7 @@ export function ProductSection({ section }: { section: ProductSectionType }) {
 
           const productId = `${section.id}-${i}-${product.name}`
           const isFav = isFavorite(productId)
+          const isAdded = addedId === productId
 
           const productObj = {
             id: productId,
@@ -101,12 +110,25 @@ export function ProductSection({ section }: { section: ProductSectionType }) {
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
-                      addItem(productObj)
+                      handleAdd(productObj)
                     }}
-                    className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow transition-transform hover:scale-105"
+                    className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold shadow transition-all ${
+                      isAdded
+                        ? 'bg-emerald-600 text-white scale-105'
+                        : 'bg-primary text-primary-foreground hover:scale-105'
+                    }`}
                   >
-                    <ShoppingBag className="h-3.5 w-3.5" />
-                    <span>Add</span>
+                    {isAdded ? (
+                      <>
+                        <Check className="h-3.5 w-3.5" />
+                        <span>Added</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag className="h-3.5 w-3.5" />
+                        <span>Add</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { X, CheckCircle2, ShieldCheck, CreditCard, Truck, Lock, ArrowRight, Smartphone, AlertCircle } from 'lucide-react'
+import { X, CheckCircle2, ShieldCheck, CreditCard, Truck, Lock, ArrowRight, Smartphone, AlertCircle, ArrowLeft } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
 import { formatPrice } from '@/lib/catalog'
 
@@ -13,7 +13,9 @@ export function CheckoutModal() {
     subtotal,
     isCheckoutOpen,
     closeCheckout,
+    openCart,
     clearCart,
+    addOrder,
   } = useCart()
 
   const [step, setStep] = useState<'form' | 'success'>('form')
@@ -26,7 +28,24 @@ export function CheckoutModal() {
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
   const [region, setRegion] = useState('Greater Accra')
+  
+  // Custom Wholesale Specs
+  const [orderTrackLength, setOrderTrackLength] = useState('')
+  const [orderMotorSpec, setOrderMotorSpec] = useState('Silent Wi-Fi Motor (220V)')
+  const [orderBulkNotes, setOrderBulkNotes] = useState('')
+
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Close on Escape key press
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isCheckoutOpen) {
+        closeCheckout()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isCheckoutOpen, closeCheckout])
 
   if (!isCheckoutOpen) return null
 
@@ -34,12 +53,54 @@ export function CheckoutModal() {
     e.preventDefault()
     setIsSubmitting(true)
 
+    const newOrd = addOrder({
+      ref: '',
+      customerName: fullName,
+      email,
+      phone,
+      address,
+      region,
+      trackLength: orderTrackLength,
+      motorSpec: orderMotorSpec,
+      bulkNotes: orderBulkNotes,
+      items,
+      subtotal,
+    })
+
+    setOrderRef(newOrd.id)
+
+    // Build WhatsApp message
+    let lineItemsText = items
+      .map(
+        (it) =>
+          `• *${it.name}* (x${it.quantity}) - GH₵${(it.price * it.quantity).toFixed(2)}` +
+          (it.trackLength ? `\n  - Track Length: ${it.trackLength}` : '') +
+          (it.motorSpec ? `\n  - Motor Spec: ${it.motorSpec}` : '') +
+          (it.bulkNotes ? `\n  - Notes: ${it.bulkNotes}` : '')
+      )
+      .join('\n')
+
+    const waText =
+      `*NEW WHOLESALE ACCESSORIES ORDER (${newOrd.id})*\n\n` +
+      `*Customer:* ${fullName}\n` +
+      `*Phone:* ${phone}\n` +
+      `*Email:* ${email}\n` +
+      `*Delivery Address:* ${address}, ${region}\n\n` +
+      `*WHOLESALE SPECIFICATIONS:*\n` +
+      `• *Track Length:* ${orderTrackLength || 'Standard / Per Item'}\n` +
+      `• *Motor Specification:* ${orderMotorSpec}\n` +
+      `• *Bulk / Project Notes:* ${orderBulkNotes || 'None'}\n\n` +
+      `*ORDERED ITEMS:*\n${lineItemsText}\n\n` +
+      `*TOTAL AMOUNT:* GH₵${subtotal.toFixed(2)}\n` +
+      `*Payment Option:* ${paymentMethod.toUpperCase()}`
+
+    const whatsappUrl = `https://wa.me/233277811521?text=${encodeURIComponent(waText)}`
+
     setTimeout(() => {
-      const generatedRef = 'TH-GH-' + Math.floor(100000 + Math.random() * 900000)
-      setOrderRef(generatedRef)
+      window.open(whatsappUrl, '_blank')
       setIsSubmitting(false)
       setStep('success')
-    }, 1200)
+    }, 600)
   }
 
   const handleFinish = () => {
@@ -52,16 +113,31 @@ export function CheckoutModal() {
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
       <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl bg-card shadow-2xl overflow-hidden border border-border animate-in fade-in zoom-in duration-200">
         {/* Modal Top Header */}
-        <div className="flex items-center justify-between border-b border-border bg-white text-[#5d1019] px-6 py-4 shrink-0">
-          <div className="flex items-center gap-2.5">
-            <ShieldCheck className="h-6 w-6 text-[#5d1019]" />
-            <div>
-              <h2 className="font-serif text-lg sm:text-xl font-bold leading-tight">
-                {step === 'form' ? 'THE INTERIOR HUB — Secure Checkout' : 'Order Successfully Placed'}
-              </h2>
-              <p className="text-xs text-muted-foreground">
-                {step === 'form' ? 'Complete your order for custom window measurement & installation' : 'Confirmation details'}
-              </p>
+        <div className="flex items-center justify-between border-b border-border bg-white text-[#5d1019] px-4 sm:px-6 py-4 shrink-0">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                closeCheckout()
+                openCart()
+              }}
+              className="flex items-center gap-1.5 rounded-lg border border-border/80 bg-muted/60 px-3 py-1.5 text-xs font-bold text-foreground transition-all hover:bg-primary hover:text-primary-foreground shadow-sm"
+              title="Return to cart to modify items"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline">Back to Cart</span>
+            </button>
+
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-6 w-6 text-[#5d1019] shrink-0" />
+              <div>
+                <h2 className="font-serif text-base sm:text-xl font-bold leading-tight">
+                  {step === 'form' ? 'THE INTERIOR HUB — Secure Checkout' : 'Order Successfully Placed'}
+                </h2>
+                <p className="text-xs text-muted-foreground hidden sm:block">
+                  {step === 'form' ? 'Complete your order for custom window measurement & installation' : 'Confirmation details'}
+                </p>
+              </div>
             </div>
           </div>
           <button
@@ -168,6 +244,99 @@ export function CheckoutModal() {
                     </div>
                   </div>
                 </div>
+
+                {/* Step 2: Wholesale Specifications (Scoped for Automated Hardware) */}
+                {items.some((it) => {
+                  const n = it.name.toLowerCase()
+                  return (
+                    n.includes('track') ||
+                    n.includes('motor') ||
+                    n.includes('automated') ||
+                    n.includes('tuya') ||
+                    n.includes('drive')
+                  )
+                }) ? (
+                  <div>
+                    <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+                        2
+                      </span>
+                      <h3 className="font-serif text-base font-bold text-foreground">
+                        Automated Hardware Specifications
+                      </h3>
+                    </div>
+
+                    <div className="mt-4 space-y-4 rounded-xl border border-border/80 bg-muted/30 p-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
+                            Track Length (Meters)
+                          </label>
+                          <input
+                            type="text"
+                            value={orderTrackLength}
+                            onChange={(e) => setOrderTrackLength(e.target.value)}
+                            placeholder="e.g., 3.5m, 6.0m or per item"
+                            className="w-full rounded-xl border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary"
+                          />
+                        </div>
+                        <div>
+                          <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
+                            Motor Specification / Drive Type
+                          </label>
+                          <select
+                            value={orderMotorSpec}
+                            onChange={(e) => setOrderMotorSpec(e.target.value)}
+                            className="w-full rounded-xl border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary"
+                          >
+                            <option value="Silent Wi-Fi Motor (220V)">Silent Wi-Fi Motor (220V)</option>
+                            <option value="Zigbee Smart Drive">Zigbee Smart Drive</option>
+                            <option value="Battery Rechargeable Motor">Battery Rechargeable Motor</option>
+                            <option value="Standard RF Remote Motor">Standard RF Remote Motor</option>
+                            <option value="Manual / Non-Motorized">Manual / Non-Motorized</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
+                          Bulk Quantity / Project Specifications Notes
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={orderBulkNotes}
+                          onChange={(e) => setOrderBulkNotes(e.target.value)}
+                          placeholder="Provide details on project counts (e.g. 1000 pcs), custom track curves, or installer requirements..."
+                          className="w-full rounded-xl border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+                        2
+                      </span>
+                      <h3 className="font-serif text-base font-bold text-foreground">
+                        Wholesale Order &amp; Bulk Quantity Notes
+                      </h3>
+                    </div>
+
+                    <div className="mt-4 rounded-xl border border-border/80 bg-muted/30 p-4">
+                      <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">
+                        Bulk Quantity / Special Instructions
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={orderBulkNotes}
+                        onChange={(e) => setOrderBulkNotes(e.target.value)}
+                        placeholder="Provide details on bulk quantities (e.g. 1000 pcs tie hooks), finish options, or delivery notes..."
+                        className="w-full rounded-xl border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary"
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div>
                   <div className="flex items-center gap-2 border-b border-border/80 pb-2">

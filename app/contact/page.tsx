@@ -6,9 +6,9 @@ import { ContactForm } from './contact-form'
 import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Contact Us | THE INTERIOR HUB',
+  title: 'Contact Us | THE CURTAIN ACCESSORIES WHOLESALE HUB',
   description:
-    'Contact THE INTERIOR HUB in Ghana. Call or WhatsApp +233 54647 8040 to schedule a free doorstep consultation, request custom curtain & blind quotes, or speak with our interior design team.',
+    'Contact THE CURTAIN ACCESSORIES WHOLESALE HUB in Ghana. Call or WhatsApp +233 54647 8040 for wholesale pricing, bulk orders, automated tracks, motors, tapes, tie hooks, and tie backs.',
 }
 
 export default function ContactPage() {
@@ -20,13 +20,13 @@ export default function ContactPage() {
         <section className="bg-secondary border-b border-border py-14">
           <div className="mx-auto max-w-7xl px-4 text-center lg:px-8">
             <span className="text-xs font-bold uppercase tracking-widest text-primary">
-              THE INTERIOR HUB GHANA
+              THE CURTAIN ACCESSORIES WHOLESALE HUB
             </span>
             <h1 className="mt-2 font-serif text-3xl font-bold text-foreground md:text-5xl">
-              Contact &amp; Design Consultation
+              Wholesale Inquiries &amp; Technical Support
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-pretty leading-relaxed text-muted-foreground">
-              We&apos;d love to hear from you! Whether you want to book a free doorstep measurement, request a quote, or inquire about our custom curtains and motorized blinds, reach out today.
+              Contact our wholesale team today for bulk price quotes, hardware technical specifications, and distribution across Ghana.
             </p>
           </div>
         </section>
@@ -40,12 +40,14 @@ export default function ContactPage() {
               </div>
               <h3 className="mt-4 font-serif text-lg font-semibold text-foreground">Call Us</h3>
               <p className="mt-1 text-xs text-muted-foreground">Speak directly with our team</p>
-              <a
-                href="tel:+233546478040"
-                className="mt-3 font-bold text-primary hover:underline text-sm"
-              >
-                +233 54647 8040
-              </a>
+              <div className="mt-3 flex flex-col gap-1 text-sm font-bold text-primary">
+                <a href="tel:+233592678531" className="hover:underline">
+                  +233 59 267 8531
+                </a>
+                <a href="tel:+233546478040" className="text-xs text-muted-foreground hover:underline">
+                  +233 54 647 8040
+                </a>
+              </div>
             </div>
 
             <div className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center shadow-sm transition-all hover:shadow-md">
@@ -53,14 +55,14 @@ export default function ContactPage() {
                 <MessageCircle className="h-6 w-6" />
               </div>
               <h3 className="mt-4 font-serif text-lg font-semibold text-foreground">WhatsApp Chat</h3>
-              <p className="mt-1 text-xs text-muted-foreground">Instant chat &amp; fabric photos</p>
+              <p className="mt-1 text-xs text-muted-foreground">Instant chat &amp; wholesale quotes</p>
               <a
-                href="https://wa.me/233546478040"
+                href="https://wa.me/233277811521"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 font-bold text-[#25D366] hover:underline text-sm"
               >
-                Chat +233 54647 8040
+                Chat +233 27 781 1521
               </a>
             </div>
 
@@ -71,10 +73,10 @@ export default function ContactPage() {
               <h3 className="mt-4 font-serif text-lg font-semibold text-foreground">Email Us</h3>
               <p className="mt-1 text-xs text-muted-foreground">Inquiries &amp; quotes</p>
               <a
-                href="mailto:info@theinteriorhub.com"
+                href="mailto:gideonogunu@gmail.com"
                 className="mt-3 font-bold text-primary hover:underline text-sm"
               >
-                info@theinteriorhub.com
+                gideonogunu@gmail.com
               </a>
             </div>
 
@@ -141,7 +143,7 @@ export default function ContactPage() {
 
               <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm border border-white/15 text-xs text-primary-foreground/90 space-y-2">
                 <p className="font-semibold text-accent text-sm">Need Urgent Assistance?</p>
-                <p>Call or WhatsApp us directly at <strong>+233 54647 8040</strong> for same-day appointment scheduling.</p>
+                <p>Call us at <strong>+233 59 267 8531</strong> or WhatsApp <strong>+233 27 781 1521</strong> for immediate wholesale assistance.</p>
               </div>
             </div>
           </div>

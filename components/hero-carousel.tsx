@@ -1,18 +1,21 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useState, useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const slides = [
   {
-    title: 'Doorstep Presentation \u2013 Free Installation!',
-    text: 'Book a complimentary call with our expert designers. They\u2019ll help you find the perfect curtains to match your style and needs.',
-    cta: 'Consult Now',
+    title: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
+    text: 'Ghana\u2019s direct wholesale supplier of Automated Tracks, Motors, Curtain Tapes, Decorative Tie Hooks & Luxury Tie Backs.',
+    cta: 'Get Bulk Quotation',
+    href: '/contact',
   },
   {
-    title: 'Book Free Home Visit',
-    text: 'Arrange a no-cost home visit with our designers. They\u2019ll assist you in selecting the ideal curtains and blinds to suit your space.',
-    cta: 'Book Now',
+    title: 'Smart Automation & Precision Hardware',
+    text: 'Supply high-performance motorized tracks, silent Wi-Fi curtain drives, pleating tapes, and premium holdback accessories for your projects.',
+    cta: 'Get Bulk Quotation',
+    href: '/contact',
   },
 ]
 
@@ -47,18 +50,18 @@ export function HeroCarousel() {
       <div className="absolute inset-0 -z-10 bg-black/45" />
 
       <div className="mx-4 w-full max-w-3xl px-4 text-center text-white">
-        <h2 className="text-balance font-serif text-3xl font-bold leading-tight text-white drop-shadow-lg md:text-5xl lg:text-6xl">
+        <h2 className="text-balance font-serif text-3xl font-bold leading-tight text-white drop-shadow-lg md:text-5xl lg:text-6xl transition-all duration-500">
           {slides[index].title}
         </h2>
-        <p className="mx-auto mt-5 max-w-xl text-pretty text-base font-medium leading-relaxed text-white/90 drop-shadow md:text-lg">
+        <p className="mx-auto mt-5 max-w-xl text-pretty text-base font-medium leading-relaxed text-white/90 drop-shadow md:text-lg transition-all duration-500">
           {slides[index].text}
         </p>
-        <a
-          href="#consultation"
-          className="mt-8 inline-block rounded-lg bg-accent px-8 py-3.5 font-serif text-lg font-semibold text-accent-foreground shadow-xl transition-all hover:scale-105 hover:brightness-110"
+        <Link
+          href={slides[index].href}
+          className="mt-8 inline-block rounded-lg bg-accent px-8 py-3.5 font-serif text-lg font-semibold text-accent-foreground shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110 active:scale-95"
         >
           {slides[index].cta}
-        </a>
+        </Link>
       </div>
 
       <button

@@ -1,23 +1,23 @@
 const steps = [
   {
     step: 'Step 1',
-    title: 'Shortlist Designs',
-    text: 'Shortlist or consult for the perfect curtain and blind design that matches your space.',
+    title: 'Select Accessories',
+    text: 'Choose from our wholesale catalog of automated tracks, motors, pleating tapes, tie hooks, and tie backs.',
   },
   {
     step: 'Step 2',
-    title: 'Customisation',
-    text: 'Customise your design. Tailor-made to fit your window size and complement your room decor.',
+    title: 'Specifications & Quote',
+    text: 'Provide track lengths, motor specifications, or bulk quantity requirements for instant wholesale pricing.',
   },
   {
     step: 'Step 3',
-    title: 'Make & Deliver',
-    text: 'Crafted with premium fabrics and delivered to your doorstep with utmost care.',
+    title: 'Fast Dispatch',
+    text: 'Orders are processed immediately with full quality inspection from our central warehouse in Accra.',
   },
   {
     step: 'Step 4',
-    title: 'Free Installation',
-    text: 'Prepare to fall in love with your windows and receive compliments for your beautiful spaces.',
+    title: 'Delivery & Tech Support',
+    text: 'Prompt doorstep delivery across Ghana with optional technical installation support for smart motorized systems.',
   },
 ]
 
@@ -26,12 +26,10 @@ export function HowItWorks() {
     <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-balance font-serif text-2xl font-bold text-foreground md:text-3xl">
-          Unique Patterns, Simple Ordering &amp; Upkeep
+          Wholesale Supply Made Simple &amp; Efficient
         </h2>
         <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
-          Customising your environment is effortless with THE INTERIOR HUB. No matter your taste,
-          we offer a variety of styles – from abstract to traditional, modern, and international
-          designs.
+          Sourcing premium curtain hardware is effortless with THE CURTAIN ACCESSORIES WHOLESALE HUB. We serve contractors, interior designers, and retailers across Ghana.
         </p>
       </div>
 

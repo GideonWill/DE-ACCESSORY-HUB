@@ -17,13 +17,13 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'THE INTERIOR HUB | Custom Curtains, Blinds & Luxury Upholstery',
+  title: 'THE CURTAIN ACCESSORIES WHOLESALE HUB | Ghana Wholesale Hardware',
   description:
-    'THE INTERIOR HUB is Ghana’s premier interior decor studio specializing in custom-made curtains, window blinds, smart motorized systems, and luxury upholstery. Free doorstep measurement and expert installation across Ghana.',
+    'THE CURTAIN ACCESSORIES WHOLESALE HUB is Ghana’s premier direct distributor of automated tracks, smart curtain motors, pleating & wave tapes, decorative tie hooks, and luxury tie backs.',
   icons: {
-    icon: '/images/NEW LOGO.png',
-    shortcut: '/images/NEW LOGO.png',
-    apple: '/images/NEW LOGO.png',
+    icon: '/images/NEW LOGO.jpeg',
+    shortcut: '/images/NEW LOGO.jpeg',
+    apple: '/images/NEW LOGO.jpeg',
   },
 }
 

@@ -17,6 +17,17 @@ export function CartDrawer() {
     openCheckout,
   } = useCart()
 
+  // Close on Escape key press
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isCartOpen) {
+        closeCart()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isCartOpen, closeCart])
+
   if (!isCartOpen) return null
 
   return (
@@ -56,7 +67,7 @@ export function CartDrawer() {
                 </div>
                 <h3 className="mt-4 font-serif text-lg font-semibold text-foreground">Your cart is empty</h3>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Explore our luxury curtains, blinds, and upholstery items to fill your cart.
+                  Explore our automated tracks, motors, tapes, tie hooks, and tie backs to fill your cart.
                 </p>
                 <button
                   onClick={closeCart}

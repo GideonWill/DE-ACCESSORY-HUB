@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import { SiteHeader } from '@/components/site-header'
 import { PromoBanner } from '@/components/promo-banner'
 import { CategoryListing } from '@/components/category-listing'
-import { Testimonials } from '@/components/testimonials'
 import { ConsultationSection } from '@/components/consultation-section'
 import { FaqSection } from '@/components/faq-section'
 import { SiteFooter } from '@/components/site-footer'
@@ -21,9 +20,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { category } = await params
   const cat = getCategory(category)
-  if (!cat) return { title: 'Not Found | THE INTERIOR HUB' }
+  if (!cat) return { title: 'Not Found | THE CURTAIN ACCESSORIES WHOLESALE HUB' }
   return {
-    title: `${cat.title} | THE INTERIOR HUB`,
+    title: `${cat.title} | THE CURTAIN ACCESSORIES WHOLESALE HUB`,
     description: cat.intro,
   }
 }
@@ -63,7 +62,7 @@ export default async function CategoryPage({
         {/* SEO content */}
         <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
           <h2 className="mb-8 font-serif text-2xl font-bold text-foreground md:text-3xl">
-            Shop from a vast collection at THE INTERIOR HUB
+            Wholesale Catalog at THE CURTAIN ACCESSORIES WHOLESALE HUB
           </h2>
           <div className="grid gap-8 md:grid-cols-2">
             {cat.seo.map((block) => (
@@ -77,7 +76,6 @@ export default async function CategoryPage({
           </div>
         </section>
 
-        <Testimonials />
         <ConsultationSection />
         <FaqSection />
       </main>

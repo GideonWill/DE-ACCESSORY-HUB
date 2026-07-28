@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { ShoppingBag, RotateCcw, Heart, Eye } from 'lucide-react'
+import { ShoppingBag, RotateCcw, Heart, Eye, Check } from 'lucide-react'
 import { formatPrice, type Category } from '@/lib/catalog'
 import { useCart } from '@/lib/cart-context'
 
@@ -23,7 +23,14 @@ export function CategoryListing({
 }) {
   const [activeType, setActiveType] = useState<string | null>(initialType ?? null)
   const [priceIdx, setPriceIdx] = useState(0)
+  const [addedId, setAddedId] = useState<string | null>(null)
   const { addItem, openProductModal, toggleFavorite, isFavorite } = useCart()
+
+  const handleAdd = (productObj: any) => {
+    addItem(productObj)
+    setAddedId(productObj.id)
+    setTimeout(() => setAddedId(null), 1500)
+  }
 
   const filtered = useMemo(() => {
     const range = priceRanges[priceIdx]
@@ -143,6 +150,7 @@ export function CategoryListing({
             {filtered.map((product, i) => {
               const productId = `cat-${category.slug}-${i}-${product.name}`
               const isFav = isFavorite(productId)
+              const isAdded = addedId === productId
               const productObj = {
                 id: productId,
                 name: product.name,
@@ -216,12 +224,25 @@ export function CategoryListing({
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
-                          addItem(productObj)
+                          handleAdd(productObj)
                         }}
-                        className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow transition-transform hover:scale-105"
+                        className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold shadow transition-all ${
+                          isAdded
+                            ? 'bg-emerald-600 text-white scale-105'
+                            : 'bg-primary text-primary-foreground hover:scale-105'
+                        }`}
                       >
-                        <ShoppingBag className="h-3.5 w-3.5" />
-                        <span>Add</span>
+                        {isAdded ? (
+                          <>
+                            <Check className="h-3.5 w-3.5" />
+                            <span>Added</span>
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingBag className="h-3.5 w-3.5" />
+                            <span>Add</span>
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>

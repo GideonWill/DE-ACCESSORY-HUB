@@ -3,15 +3,15 @@ import { PhoneCall, Home } from 'lucide-react'
 const cards = [
   {
     icon: PhoneCall,
-    title: 'Get Free Consultation From Experts',
-    text: 'Book a complimentary call with our expert designers. They\u2019ll help you find the perfect curtains and blinds to match your style and needs.',
-    cta: 'Consult Now',
+    title: 'Wholesale & Bulk Supply Consultation',
+    text: 'Speak with our hardware specialists for contractor pricing, bulk order inquiries, and technical specs on automated tracks & motors.',
+    cta: 'Inquire Wholesale',
   },
   {
     icon: Home,
-    title: 'Book Free Home Visit',
-    text: 'Arrange a no-cost home visit with our designers. They\u2019ll assist you in selecting the ideal window solutions to suit your space and preferences.',
-    cta: 'Book Now',
+    title: 'On-Site Technical Demonstration',
+    text: 'Request a visit from our technical team across Ghana. We bring full samples of motorized tracks, motors, tapes, tie hooks, and tie backs.',
+    cta: 'Schedule Technical Visit',
   },
 ]
 

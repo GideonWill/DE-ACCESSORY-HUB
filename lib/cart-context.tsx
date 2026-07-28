@@ -9,6 +9,9 @@ export type CartItem = {
   price: number
   image: string
   quantity: number
+  trackLength?: string
+  motorSpec?: string
+  bulkNotes?: string
 }
 
 export type ProductView = {
@@ -17,8 +20,32 @@ export type ProductView = {
   brand: string
   price: number
   image: string
+  categorySlug?: string
   sale?: boolean
   description?: string
+  trackLength?: string
+  motorSpec?: string
+  bulkNotes?: string
+}
+
+export type WholesaleOrder = {
+  id: string
+  ref: string
+  date: string
+  dateIso: string
+  customerName: string
+  email: string
+  phone: string
+  address: string
+  region: string
+  trackLength?: string
+  motorSpec?: string
+  bulkNotes?: string
+  items: CartItem[]
+  subtotal: number
+  paymentStatus: 'Paid' | 'Pending'
+  paymentMethod?: string
+  status: 'Pending' | 'Processing' | 'Completed'
 }
 
 type CartContextType = {
@@ -41,20 +68,135 @@ type CartContextType = {
   activeProduct: ProductView | null
   openProductModal: (product: ProductView) => void
   closeProductModal: () => void
-  buyNow: (product: ProductView) => void
+  buyNow: (product: ProductView, qty?: number) => void
   favorites: string[]
   toggleFavorite: (id: string) => void
   isFavorite: (id: string) => boolean
+  orders: WholesaleOrder[]
+  addOrder: (order: Omit<WholesaleOrder, 'id' | 'date' | 'dateIso' | 'status' | 'paymentStatus'>) => WholesaleOrder
+  customProducts: ProductView[]
+  addProduct: (product: ProductView) => void
+  updateProductPrice: (id: string, newPrice: number) => void
+  deleteProduct: (id: string) => void
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
 const CART_STORAGE_KEY = 'the_interior_hub_cart'
 const FAVORITES_STORAGE_KEY = 'the_interior_hub_favs'
+const ORDERS_STORAGE_KEY = 'the_interior_hub_orders'
+const CUSTOM_PRODUCTS_KEY = 'the_interior_hub_custom_products'
+
+const SAMPLE_ORDERS: WholesaleOrder[] = [
+  {
+    id: 'ORD-984210',
+    ref: 'TH-GH-984210',
+    date: '28 Jul 2026, 10:30 AM',
+    dateIso: '2026-07-28',
+    customerName: 'Kwame Mensah',
+    email: 'kwame.mensah@gmail.com',
+    phone: '+233 54 647 8040',
+    address: '14 Airport Residential Area',
+    region: 'Greater Accra',
+    trackLength: '4.5m (Wi-Fi Drive)',
+    motorSpec: 'Silent Wi-Fi Motor (220V)',
+    bulkNotes: 'Need 12 sets for residential villa development in East Legon.',
+    items: [
+      {
+        id: 'ord-1-1',
+        name: 'Tuya Smart Wi-Fi Motorized Track',
+        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
+        price: 850,
+        quantity: 2,
+        image: '/images/AUTOMATED TRACKS.jpg',
+        trackLength: '4.5m',
+        motorSpec: 'Silent Wi-Fi Motor (220V)',
+      },
+      {
+        id: 'ord-1-2',
+        name: 'Heavy Duty Pleating Tape (50m Roll)',
+        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
+        price: 220,
+        quantity: 3,
+        image: '/images/TAPES.jpg',
+      },
+    ],
+    subtotal: 2360,
+    paymentStatus: 'Paid',
+    paymentMethod: 'Paystack Ghana (MoMo)',
+    status: 'Completed',
+  },
+  {
+    id: 'ORD-873104',
+    ref: 'TH-GH-873104',
+    date: '28 Jul 2026, 08:15 AM',
+    dateIso: '2026-07-28',
+    customerName: 'Abena Osei',
+    email: 'abena.osei@interiorcraft.gh',
+    phone: '+233 24 412 9081',
+    address: 'Suite 4, Ridge Towers',
+    region: 'Greater Accra',
+    trackLength: '6.0m Double Track',
+    motorSpec: 'Zigbee Smart Drive',
+    bulkNotes: 'Commercial hotel fitting project - urgent morning dispatch required.',
+    items: [
+      {
+        id: 'ord-2-1',
+        name: 'Luxury Brass Decorative Tie Hooks',
+        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
+        price: 180,
+        quantity: 10,
+        image: '/images/TIE HOOKS.jpg',
+      },
+      {
+        id: 'ord-2-2',
+        name: 'Handcrafted Velvet Tassel Tie Backs',
+        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
+        price: 250,
+        quantity: 5,
+        image: '/images/TIE BACKS.jpg',
+      },
+    ],
+    subtotal: 3050,
+    paymentStatus: 'Paid',
+    paymentMethod: 'Paystack Ghana (Card)',
+    status: 'Completed',
+  },
+  {
+    id: 'ORD-762198',
+    ref: 'TH-GH-762198',
+    date: '27 Jul 2026, 04:45 PM',
+    dateIso: '2026-07-27',
+    customerName: 'Ebenezer Appiah',
+    email: 'ebenezer@appiahcontracting.com',
+    phone: '+233 50 192 8374',
+    address: 'Ahodwo Roundabout, Kumasi',
+    region: 'Ashanti',
+    trackLength: '3.0m Single Track',
+    motorSpec: 'Battery Rechargeable Motor',
+    bulkNotes: 'Deliver to VIP bus station Kumasi depot.',
+    items: [
+      {
+        id: 'ord-3-1',
+        name: 'Tubular Smart Curtain Motor 45mm',
+        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
+        price: 680,
+        quantity: 4,
+        image: '/images/AUTOMATED MOTORS.jpg',
+      },
+    ],
+    subtotal: 2720,
+    paymentStatus: 'Paid',
+    paymentMethod: 'Paystack Ghana (MoMo)',
+    status: 'Completed',
+  },
+]
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
   const [favorites, setFavorites] = useState<string[]>([])
+  const [orders, setOrders] = useState<WholesaleOrder[]>([])
+  const [customProducts, setCustomProducts] = useState<ProductView[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -68,6 +210,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (savedCart) setItems(JSON.parse(savedCart))
       const savedFavs = localStorage.getItem(FAVORITES_STORAGE_KEY)
       if (savedFavs) setFavorites(JSON.parse(savedFavs))
+      const savedOrders = localStorage.getItem(ORDERS_STORAGE_KEY)
+      if (savedOrders) {
+        setOrders(JSON.parse(savedOrders))
+      } else {
+        setOrders(SAMPLE_ORDERS)
+      }
+      const savedProducts = localStorage.getItem(CUSTOM_PRODUCTS_KEY)
+      if (savedProducts) setCustomProducts(JSON.parse(savedProducts))
     } catch (e) {
       console.error('Failed to load storage', e)
     }
@@ -93,9 +243,34 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [favorites, mounted])
 
-  const addItem = (newItem: Omit<CartItem, 'quantity'>, qty = 1, openDrawer = true) => {
+  useEffect(() => {
+    if (mounted) {
+      try {
+        localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders))
+      } catch (e) {
+        console.error('Failed to save orders', e)
+      }
+    }
+  }, [orders, mounted])
+
+  useEffect(() => {
+    if (mounted) {
+      try {
+        localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(customProducts))
+      } catch (e) {
+        console.error('Failed to save custom products', e)
+      }
+    }
+  }, [customProducts, mounted])
+
+  const addItem = (newItem: Omit<CartItem, 'quantity'>, qty = 1, openDrawer = false) => {
     setItems((prev) => {
-      const existingIndex = prev.findIndex((i) => i.id === newItem.id)
+      const existingIndex = prev.findIndex(
+        (i) =>
+          i.id === newItem.id &&
+          i.trackLength === newItem.trackLength &&
+          i.motorSpec === newItem.motorSpec
+      )
       if (existingIndex > -1) {
         const updated = [...prev]
         updated[existingIndex].quantity += qty
@@ -134,7 +309,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setActiveProduct(null)
   }
 
-  const buyNow = (product: ProductView) => {
+  const buyNow = (product: ProductView, qty = 1) => {
     addItem(
       {
         id: product.id,
@@ -142,8 +317,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         brand: product.brand,
         price: product.price,
         image: product.image,
+        trackLength: product.trackLength,
+        motorSpec: product.motorSpec,
+        bulkNotes: product.bulkNotes,
       },
-      1,
+      qty,
       false
     )
     setActiveProduct(null)
@@ -159,7 +337,43 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const isFavorite = (id: string) => favorites.includes(id)
 
-  const totalCount = items.reduce((sum, item) => sum + item.quantity, 0)
+  const addOrder = (orderData: Omit<WholesaleOrder, 'id' | 'date' | 'dateIso' | 'status' | 'paymentStatus'>) => {
+    const now = new Date()
+    const newOrder: WholesaleOrder = {
+      ...orderData,
+      id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
+      dateIso: now.toISOString().split('T')[0],
+      date: now.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+      paymentStatus: 'Paid',
+      paymentMethod: orderData.paymentMethod || 'Paystack Ghana (MoMo)',
+      status: 'Pending',
+    }
+    setOrders((prev) => [newOrder, ...prev])
+    return newOrder
+  }
+
+  const addProduct = (product: ProductView) => {
+    setCustomProducts((prev) => [product, ...prev])
+  }
+
+  const updateProductPrice = (id: string, newPrice: number) => {
+    setCustomProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, price: newPrice } : p))
+    )
+  }
+
+  const deleteProduct = (id: string) => {
+    setCustomProducts((prev) => prev.filter((p) => p.id !== id))
+  }
+
+  // Count of distinct unique items in the cart (so selecting the same item increases quantity without incrementing the cart badge count until a different product is added)
+  const totalCount = items.length
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   return (
@@ -191,6 +405,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         favorites,
         toggleFavorite,
         isFavorite,
+        orders,
+        addOrder,
+        customProducts,
+        addProduct,
+        updateProductPrice,
+        deleteProduct,
       }}
     >
       {children}
