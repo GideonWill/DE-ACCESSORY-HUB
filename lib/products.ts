@@ -35,7 +35,7 @@ export const productSections: ProductSection[] = [
   },
   {
     id: 'tapes',
-    title: 'Curtain & Heading Tapes',
+    title: 'Heading Tapes',
     products: [
       { name: '80mm S-Wave Fold Snap Tape (100m Roll)', brand: 'DE-WHOLESALE', image: '/images/curtain-tapes.png', price: 'GH₵280.00', sale: true },
       { name: 'Classic Deep Pinch Pleat Curtain Tape (50m Roll)', brand: 'DE-WHOLESALE', image: '/images/curtain-tapes.png', price: 'GH₵210.00' },

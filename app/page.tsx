@@ -3,7 +3,6 @@ import { HeroCarousel } from '@/components/hero-carousel'
 import { PromoBanner } from '@/components/promo-banner'
 import { ProductSection } from '@/components/product-section'
 import { HowItWorks } from '@/components/how-it-works'
-import { ConsultationSection } from '@/components/consultation-section'
 import { FaqSection } from '@/components/faq-section'
 import { SiteFooter } from '@/components/site-footer'
 import { FloatingContact } from '@/components/floating-contact'
@@ -26,7 +25,6 @@ export default function Page() {
         ))}
 
         <HowItWorks />
-        <ConsultationSection />
         <FaqSection />
       </main>
       <SiteFooter />

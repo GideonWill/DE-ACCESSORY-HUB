@@ -44,7 +44,7 @@ export type WholesaleOrder = {
   bulkNotes?: string
   items: CartItem[]
   subtotal: number
-  paymentStatus: 'Paid' | 'Pending'
+  paymentStatus: 'Paid' | 'Pending' | 'Unpaid (Pay on Delivery)'
   paymentMethod?: string
   status: 'Pending' | 'Processing' | 'Cutting / Customization' | 'Out for Delivery' | 'Delivered' | 'Completed'
 }
@@ -79,6 +79,8 @@ type CartContextType = {
   orders: WholesaleOrder[]
   addOrder: (order: Omit<WholesaleOrder, 'id' | 'date' | 'dateIso' | 'status' | 'paymentStatus'>) => WholesaleOrder
   updateOrderStatus: (id: string, status: WholesaleOrder['status']) => void
+  updatePaymentStatus: (id: string, paymentStatus: WholesaleOrder['paymentStatus']) => void
+  clearAllOrders: () => void
   customProducts: ProductView[]
   addProduct: (product: ProductView) => void
   updateProductPrice: (id: string, newPrice: number) => void
@@ -89,113 +91,10 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 
 const CART_STORAGE_KEY = 'the_interior_hub_cart'
 const FAVORITES_STORAGE_KEY = 'the_interior_hub_favs'
-const ORDERS_STORAGE_KEY = 'the_interior_hub_orders'
+const ORDERS_STORAGE_KEY = 'the_interior_hub_orders_v2'
 const CUSTOM_PRODUCTS_KEY = 'the_interior_hub_custom_products'
 
-const SAMPLE_ORDERS: WholesaleOrder[] = [
-  {
-    id: 'ORD-984210',
-    ref: 'TH-GH-984210',
-    date: '28 Jul 2026, 10:30 AM',
-    dateIso: '2026-07-28',
-    customerName: 'Kwame Mensah',
-    email: 'kwame.mensah@gmail.com',
-    phone: '+233 54 647 8040',
-    address: '14 Airport Residential Area',
-    region: 'Greater Accra',
-    trackLength: '4.5m (Wi-Fi Drive)',
-    motorSpec: 'Silent Wi-Fi Motor (220V)',
-    bulkNotes: 'Need 12 sets for residential villa development in East Legon.',
-    items: [
-      {
-        id: 'ord-1-1',
-        name: 'Tuya Smart Wi-Fi Motorized Track',
-        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
-        price: 850,
-        quantity: 2,
-        image: '/images/AUTOMATED TRACKS.jpg',
-        trackLength: '4.5m',
-        motorSpec: 'Silent Wi-Fi Motor (220V)',
-      },
-      {
-        id: 'ord-1-2',
-        name: 'Heavy Duty Pleating Tape (50m Roll)',
-        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
-        price: 220,
-        quantity: 3,
-        image: '/images/TAPES.jpg',
-      },
-    ],
-    subtotal: 2360,
-    paymentStatus: 'Paid',
-    paymentMethod: 'Paystack Ghana (MoMo)',
-    status: 'Completed',
-  },
-  {
-    id: 'ORD-873104',
-    ref: 'TH-GH-873104',
-    date: '28 Jul 2026, 08:15 AM',
-    dateIso: '2026-07-28',
-    customerName: 'Abena Osei',
-    email: 'abena.osei@interiorcraft.gh',
-    phone: '+233 24 412 9081',
-    address: 'Suite 4, Ridge Towers',
-    region: 'Greater Accra',
-    trackLength: '6.0m Double Track',
-    motorSpec: 'Zigbee Smart Drive',
-    bulkNotes: 'Commercial hotel fitting project - urgent morning dispatch required.',
-    items: [
-      {
-        id: 'ord-2-1',
-        name: 'Luxury Brass Decorative Tie Hooks',
-        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
-        price: 180,
-        quantity: 10,
-        image: '/images/TIE HOOKS.jpg',
-      },
-      {
-        id: 'ord-2-2',
-        name: 'Handcrafted Velvet Tassel Tie Backs',
-        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
-        price: 250,
-        quantity: 5,
-        image: '/images/TIE BACKS.jpg',
-      },
-    ],
-    subtotal: 3050,
-    paymentStatus: 'Paid',
-    paymentMethod: 'Paystack Ghana (Card)',
-    status: 'Completed',
-  },
-  {
-    id: 'ORD-762198',
-    ref: 'TH-GH-762198',
-    date: '27 Jul 2026, 04:45 PM',
-    dateIso: '2026-07-27',
-    customerName: 'Ebenezer Appiah',
-    email: 'ebenezer@appiahcontracting.com',
-    phone: '+233 50 192 8374',
-    address: 'Ahodwo Roundabout, Kumasi',
-    region: 'Ashanti',
-    trackLength: '3.0m Single Track',
-    motorSpec: 'Battery Rechargeable Motor',
-    bulkNotes: 'Deliver to VIP bus station Kumasi depot.',
-    items: [
-      {
-        id: 'ord-3-1',
-        name: 'Tubular Smart Curtain Motor 45mm',
-        brand: 'THE CURTAIN ACCESSORIES WHOLESALE HUB',
-        price: 680,
-        quantity: 4,
-        image: '/images/AUTOMATED MOTORS.jpg',
-      },
-    ],
-    subtotal: 2720,
-    paymentStatus: 'Paid',
-    paymentMethod: 'Paystack Ghana (MoMo)',
-    status: 'Completed',
-  },
-]
+const SAMPLE_ORDERS: WholesaleOrder[] = []
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
@@ -212,15 +111,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setMounted(true)
     try {
+      // Purge legacy test orders key
+      localStorage.removeItem('the_interior_hub_orders')
+
       const savedCart = localStorage.getItem(CART_STORAGE_KEY)
       if (savedCart) setItems(JSON.parse(savedCart))
       const savedFavs = localStorage.getItem(FAVORITES_STORAGE_KEY)
       if (savedFavs) setFavorites(JSON.parse(savedFavs))
       const savedOrders = localStorage.getItem(ORDERS_STORAGE_KEY)
       if (savedOrders) {
-        setOrders(JSON.parse(savedOrders))
+        const parsed: WholesaleOrder[] = JSON.parse(savedOrders)
+        // Filter out any legacy test orders
+        const realOrders = parsed.filter((o) => !['ORD-984210', 'ORD-873104', 'ORD-762198'].includes(o.id))
+        setOrders(realOrders)
       } else {
-        setOrders(SAMPLE_ORDERS)
+        setOrders([])
       }
       const savedProducts = localStorage.getItem(CUSTOM_PRODUCTS_KEY)
       if (savedProducts) setCustomProducts(JSON.parse(savedProducts))
@@ -345,6 +250,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addOrder = (orderData: Omit<WholesaleOrder, 'id' | 'date' | 'dateIso' | 'status' | 'paymentStatus'>) => {
     const now = new Date()
+    const methodLower = (orderData.paymentMethod || '').toLowerCase()
+    const isPayOnDelivery = methodLower.includes('delivery') || methodLower.includes('doorstep') || methodLower.includes('cod')
+
     const newOrder: WholesaleOrder = {
       ...orderData,
       id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
@@ -356,7 +264,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         hour: '2-digit',
         minute: '2-digit',
       }),
-      paymentStatus: 'Paid',
+      paymentStatus: isPayOnDelivery ? 'Unpaid (Pay on Delivery)' : 'Paid',
       paymentMethod: orderData.paymentMethod || 'Paystack Ghana (MoMo)',
       status: 'Pending',
     }
@@ -368,6 +276,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setOrders((prev) =>
       prev.map((o) => (o.id === id ? { ...o, status } : o))
     )
+  }
+
+  const updatePaymentStatus = (id: string, paymentStatus: WholesaleOrder['paymentStatus']) => {
+    setOrders((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, paymentStatus } : o))
+    )
+  }
+
+  const clearAllOrders = () => {
+    setOrders([])
+    try {
+      localStorage.removeItem('the_interior_hub_orders')
+      localStorage.removeItem(ORDERS_STORAGE_KEY)
+    } catch (e) {
+      console.error('Failed to clear orders storage', e)
+    }
   }
 
   const addProduct = (product: ProductView) => {
@@ -423,6 +347,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         orders,
         addOrder,
         updateOrderStatus,
+        updatePaymentStatus,
+        clearAllOrders,
         customProducts,
         addProduct,
         updateProductPrice,

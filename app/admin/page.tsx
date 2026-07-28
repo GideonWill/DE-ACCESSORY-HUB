@@ -31,6 +31,8 @@ export default function AdminPage() {
   const {
     orders,
     updateOrderStatus,
+    updatePaymentStatus,
+    clearAllOrders,
     customProducts,
     addProduct,
     updateProductPrice,
@@ -105,6 +107,18 @@ export default function AdminPage() {
     return result
   }, [orders, selectedDate, searchQuery])
 
+  // Filtered Products for Inventory Manager
+  const filteredProducts = useMemo(() => {
+    if (!searchQuery) return allProducts
+    const q = searchQuery.toLowerCase()
+    return allProducts.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.brand.toLowerCase().includes(q) ||
+        (p.categorySlug || '').toLowerCase().includes(q)
+    )
+  }, [allProducts, searchQuery])
+
   // Calculations for daily revenue metrics
   const selectedDayRevenue = dailyFilteredOrders.reduce((sum, o) => sum + o.subtotal, 0)
   const totalLifetimeRevenue = orders.reduce((sum, o) => sum + o.subtotal, 0)
@@ -170,13 +184,28 @@ export default function AdminPage() {
                 </p>
               </div>
 
-              <button
-                onClick={() => setIsAddFormOpen(true)}
-                className="flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-serif text-sm font-bold text-accent-foreground shadow-lg transition-all hover:scale-105 hover:brightness-110"
-              >
-                <Plus className="h-5 w-5" />
-                <span>Add New Product</span>
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    if (confirm('Are you sure you want to clear all test orders data?')) {
+                      clearAllOrders()
+                    }
+                  }}
+                  className="flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-4 py-3 font-serif text-xs font-bold text-white transition-all hover:bg-white/20 active:scale-95"
+                  title="Clear test orders dataset"
+                >
+                  <Trash2 className="h-4 w-4 text-rose-300" />
+                  <span>Clear Test Orders</span>
+                </button>
+
+                <button
+                  onClick={() => setIsAddFormOpen(true)}
+                  className="flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-serif text-sm font-bold text-accent-foreground shadow-lg transition-all hover:scale-105 hover:brightness-110 active:scale-95"
+                >
+                  <Plus className="h-5 w-5" />
+                  <span>Add New Product</span>
+                </button>
+              </div>
             </div>
 
             {/* Daily Metrics Dashboard Bar */}
@@ -520,20 +549,42 @@ export default function AdminPage() {
 
                           {/* Payment Method */}
                           <td className="px-4 py-4 align-top">
-                            <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-[11px] font-bold text-emerald-800">
-                              <CreditCard className="h-3 w-3" />
-                              {order.paymentMethod || 'Paystack Ghana'}
-                            </span>
+                            {order.paymentStatus === 'Paid' ? (
+                              <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-[11px] font-bold text-emerald-800">
+                                <CreditCard className="h-3 w-3 text-emerald-600" />
+                                {order.paymentMethod || 'Paystack Ghana'}
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 border border-amber-300 px-2.5 py-1 text-[11px] font-bold text-amber-900">
+                                <Truck className="h-3.5 w-3.5 text-amber-700" />
+                                {order.paymentMethod || 'Pay on Doorstep Delivery'}
+                              </span>
+                            )}
                           </td>
 
-                          {/* Amount Paid */}
+                          {/* Amount Paid & Payment Status */}
                           <td className="px-4 py-4 align-top text-right">
                             <span className="font-serif text-base font-bold text-primary block">
                               {formatPrice(order.subtotal)}
                             </span>
-                            <span className="inline-block rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700 mt-1">
-                              PAID ✓
-                            </span>
+                            {order.paymentStatus === 'Paid' ? (
+                              <span className="inline-block rounded-full bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 mt-1">
+                                PAID ✓
+                              </span>
+                            ) : (
+                              <div>
+                                <span className="inline-block rounded-full bg-amber-100 border border-amber-300 px-2 py-0.5 text-[10px] font-bold text-amber-800 mt-1">
+                                  UNPAID (Pay on Delivery) ⌛
+                                </span>
+                                <button
+                                  onClick={() => updatePaymentStatus(order.id, 'Paid')}
+                                  className="mt-1 text-[10px] font-bold text-emerald-700 hover:text-emerald-900 hover:underline block ml-auto"
+                                  title="Click to confirm doorstep cash/MoMo payment collected"
+                                >
+                                  Mark as Paid ✓
+                                </button>
+                              </div>
+                            )}
                           </td>
 
                           {/* Status Stage Selector */}

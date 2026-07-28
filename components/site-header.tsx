@@ -58,17 +58,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={openTrackModal}
-            aria-label="Track Order Status"
-            className="flex items-center gap-1.5 rounded-full border border-[#5d1019]/30 bg-[#5d1019]/5 px-3 py-1.5 text-xs font-bold text-[#5d1019] transition-all hover:bg-[#5d1019] hover:text-white shadow-sm"
-            title="Track order status by phone number"
-          >
-            <Truck className="h-4 w-4" />
-            <span className="hidden sm:inline">Track Order</span>
-          </button>
-
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Mobile Search Button */}
           <button
             onClick={openSearch}
             aria-label="Search catalog"
@@ -77,21 +68,34 @@ export function SiteHeader() {
             <Search className="h-5 w-5" />
           </button>
 
+          {/* Cart Icon & Badge */}
           <button
             onClick={openCart}
             aria-label="Shopping Cart"
-            className="relative flex items-center justify-center rounded-full p-2.5 text-[#5d1019] transition-all hover:bg-muted"
+            className="relative flex items-center justify-center rounded-full p-2 text-[#5d1019] transition-all hover:bg-muted"
           >
-            <ShoppingBag className="h-6 w-6 text-[#5d1019]" />
+            <ShoppingBag className="h-5.5 w-5.5 text-[#5d1019]" />
             {totalCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground shadow-md">
+              <span className="absolute -right-0.5 -top-0.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-md">
                 {totalCount}
               </span>
             )}
           </button>
 
+          {/* Tracking Icon (Positioned directly after Cart icon) */}
           <button
-            className="rounded-md p-2 text-[#5d1019] transition-colors hover:bg-muted lg:hidden"
+            onClick={openTrackModal}
+            aria-label="Track Order Status"
+            className="flex items-center gap-1 rounded-full border border-[#5d1019]/30 bg-[#5d1019]/5 px-2.5 py-1.5 text-xs font-bold text-[#5d1019] transition-all hover:bg-[#5d1019] hover:text-white shadow-sm active:scale-95 shrink-0"
+            title="Track order status by phone number"
+          >
+            <Truck className="h-4 w-4 shrink-0 text-[#5d1019]" />
+            <span className="hidden sm:inline">Track Order</span>
+          </button>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="rounded-md p-1.5 text-[#5d1019] transition-colors hover:bg-muted lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}

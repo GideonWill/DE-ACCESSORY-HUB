@@ -71,11 +71,37 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
   }
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+
+  /* Touch Optimizations for Mobile Devices */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  /* Smooth Momentum Scrolling for Modals & Drawers */
+  .overflow-y-auto, .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent Mobile Safari Font Zooming on Inputs */
+  @media (max-width: 768px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
   }
 }

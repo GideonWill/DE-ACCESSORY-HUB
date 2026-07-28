@@ -106,8 +106,8 @@ export const categories: Category[] = [
   },
   {
     slug: 'tapes',
-    title: 'Curtain & Heading Tapes',
-    heading: 'Wholesale Curtain Header & Pleating Tapes',
+    title: 'Heading Tapes',
+    heading: 'Wholesale Heading Tapes & Pleating Tapes',
     intro:
       'Industrial wholesale rolls of curtain heading tapes, S-wave pleat tapes, buckram stiffener tapes, transparent sheer tapes, and grommet reinforcement tapes.',
     hero: '/images/curtain-tapes.png',
@@ -217,7 +217,7 @@ export const categories: Category[] = [
     hero: '/images/automated-tracks.png',
     types: [
       { slug: 'automation', label: 'Automated Tracks & Motors' },
-      { slug: 'tapes', label: 'Curtain Tapes' },
+      { slug: 'tapes', label: 'Heading Tapes' },
       { slug: 'tie-hooks-backs', label: 'Tie Hooks & Tie Backs' },
     ],
     products: [
@@ -250,11 +250,11 @@ export const categories: Category[] = [
   },
   {
     slug: 'curtains',
-    title: 'Curtain Tapes & Accessories',
-    heading: 'Wholesale Curtain Tapes & Hardware',
+    title: 'Heading Tapes & Accessories',
+    heading: 'Wholesale Heading Tapes & Hardware',
     intro: 'Explore our complete catalog of curtain heading tapes, pleating tapes, tie hooks, and luxury tie backs.',
     hero: '/images/curtain-tapes.png',
-    types: [{ slug: 'tapes', label: 'Curtain Tapes' }],
+    types: [{ slug: 'tapes', label: 'Heading Tapes' }],
     products: [
       { name: '80mm S-Wave Fold Snap Tape (100m Roll)', brand: 'DE-WHOLESALE', image: '/images/curtain-tapes.png', price: 280, type: 'tapes', sale: true },
       { name: 'Luxury Royal Tassel Curtain Tie Back Pair', brand: 'DE-WHOLESALE', image: '/images/tie-backs.png', price: 65, type: 'tapes', sale: true },
