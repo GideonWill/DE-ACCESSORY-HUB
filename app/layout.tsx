@@ -37,6 +37,7 @@ import { CartDrawer } from '@/components/cart-drawer'
 import { CheckoutModal } from '@/components/checkout-modal'
 import { ProductModal } from '@/components/product-modal'
 import { SearchModal } from '@/components/search-modal'
+import { PaymentSuccessModal } from '@/components/payment-success-modal'
 
 export default function RootLayout({
   children,
@@ -52,6 +53,7 @@ export default function RootLayout({
           <CheckoutModal />
           <ProductModal />
           <SearchModal />
+          <PaymentSuccessModal />
         </CartProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

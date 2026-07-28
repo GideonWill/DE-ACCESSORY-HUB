@@ -30,6 +30,7 @@ import { formatPrice } from '@/lib/catalog'
 export default function AdminPage() {
   const {
     orders,
+    updateOrderStatus,
     customProducts,
     addProduct,
     updateProductPrice,
@@ -467,12 +468,23 @@ export default function AdminPage() {
                           {/* Client Information */}
                           <td className="px-4 py-4 align-top space-y-1">
                             <p className="font-bold text-foreground text-sm">{order.customerName}</p>
-                            <p className="flex items-center gap-1.5 text-muted-foreground">
-                              <PhoneCall className="h-3 w-3 text-emerald-600 shrink-0" />
-                              <a href={`tel:${order.phone}`} className="hover:underline font-semibold text-foreground">
-                                {order.phone}
+                            <div className="flex flex-wrap items-center gap-2">
+                              <p className="flex items-center gap-1 text-muted-foreground">
+                                <PhoneCall className="h-3 w-3 text-emerald-600 shrink-0" />
+                                <a href={`tel:${order.phone}`} className="hover:underline font-semibold text-foreground">
+                                  {order.phone}
+                                </a>
+                              </p>
+                              <a
+                                href={`https://wa.me/${(order.phone.replace(/[^0-9]/g, '').startsWith('0') ? '233' + order.phone.replace(/[^0-9]/g, '').slice(1) : order.phone.replace(/[^0-9]/g, ''))}?text=${encodeURIComponent(`Hello ${order.customerName}, this is THE CURTAIN ACCESSORIES WHOLESALE HUB regarding your order ${order.id}. We have received your specifications:\n• Track Length: ${order.trackLength || 'Standard'}\n• Motor Spec: ${order.motorSpec || 'None'}\n• Amount Paid: GH₵${order.subtotal.toFixed(2)}`)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white transition-transform hover:scale-105 shadow-sm"
+                                title="Contact client directly on WhatsApp"
+                              >
+                                WhatsApp Client
                               </a>
-                            </p>
+                            </div>
                             <p className="flex items-center gap-1.5 text-muted-foreground">
                               <Mail className="h-3 w-3 text-primary shrink-0" />
                               <span>{order.email}</span>
@@ -524,11 +536,20 @@ export default function AdminPage() {
                             </span>
                           </td>
 
-                          {/* Status */}
+                          {/* Status Stage Selector */}
                           <td className="px-4 py-4 align-top text-center">
-                            <span className="inline-block rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-bold text-amber-800">
-                              {order.status}
-                            </span>
+                            <select
+                              value={order.status}
+                              onChange={(e) => updateOrderStatus(order.id, e.target.value as any)}
+                              className="rounded-xl border border-primary/30 bg-primary/5 px-2.5 py-1.5 text-xs font-bold text-primary outline-none cursor-pointer hover:bg-primary hover:text-white transition-all shadow-sm"
+                              title="Update live order status stage"
+                            >
+                              <option value="Pending">Order Confirmed</option>
+                              <option value="Processing">Factory Processing</option>
+                              <option value="Cutting / Customization">Cutting &amp; Customization</option>
+                              <option value="Out for Delivery">Out for Delivery</option>
+                              <option value="Delivered">Delivered &amp; Installed</option>
+                            </select>
                           </td>
                         </tr>
                       ))

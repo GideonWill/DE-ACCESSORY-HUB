@@ -1,6 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import { TrackOrderModal } from '@/components/track-order-modal'
 
 export type CartItem = {
   id: string
@@ -45,7 +46,7 @@ export type WholesaleOrder = {
   subtotal: number
   paymentStatus: 'Paid' | 'Pending'
   paymentMethod?: string
-  status: 'Pending' | 'Processing' | 'Completed'
+  status: 'Pending' | 'Processing' | 'Cutting / Customization' | 'Out for Delivery' | 'Delivered' | 'Completed'
 }
 
 type CartContextType = {
@@ -65,6 +66,9 @@ type CartContextType = {
   isSearchOpen: boolean
   openSearch: () => void
   closeSearch: () => void
+  isTrackModalOpen: boolean
+  openTrackModal: () => void
+  closeTrackModal: () => void
   activeProduct: ProductView | null
   openProductModal: (product: ProductView) => void
   closeProductModal: () => void
@@ -74,6 +78,7 @@ type CartContextType = {
   isFavorite: (id: string) => boolean
   orders: WholesaleOrder[]
   addOrder: (order: Omit<WholesaleOrder, 'id' | 'date' | 'dateIso' | 'status' | 'paymentStatus'>) => WholesaleOrder
+  updateOrderStatus: (id: string, status: WholesaleOrder['status']) => void
   customProducts: ProductView[]
   addProduct: (product: ProductView) => void
   updateProductPrice: (id: string, newPrice: number) => void
@@ -200,6 +205,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isTrackModalOpen, setIsTrackModalOpen] = useState(false)
   const [activeProduct, setActiveProduct] = useState<ProductView | null>(null)
   const [mounted, setMounted] = useState(false)
 
@@ -358,6 +364,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return newOrder
   }
 
+  const updateOrderStatus = (id: string, status: WholesaleOrder['status']) => {
+    setOrders((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, status } : o))
+    )
+  }
+
   const addProduct = (product: ProductView) => {
     setCustomProducts((prev) => [product, ...prev])
   }
@@ -398,6 +410,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         isSearchOpen,
         openSearch: () => setIsSearchOpen(true),
         closeSearch: () => setIsSearchOpen(false),
+        isTrackModalOpen,
+        openTrackModal: () => setIsTrackModalOpen(true),
+        closeTrackModal: () => setIsTrackModalOpen(false),
         activeProduct,
         openProductModal,
         closeProductModal,
@@ -407,6 +422,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         isFavorite,
         orders,
         addOrder,
+        updateOrderStatus,
         customProducts,
         addProduct,
         updateProductPrice,
@@ -414,6 +430,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
+      <TrackOrderModal />
     </CartContext.Provider>
   )
 }

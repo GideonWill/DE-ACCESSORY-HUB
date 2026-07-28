@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, ChevronDown, Menu, X, ShoppingBag } from 'lucide-react'
+import { Search, ChevronDown, Menu, X, ShoppingBag, Truck } from 'lucide-react'
 import { Logo } from './logo'
 import { navItems } from '@/lib/navigation'
 import { useCart } from '@/lib/cart-context'
@@ -11,7 +11,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [openSub, setOpenSub] = useState<string | null>(null)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
-  const { totalCount, openCart, openSearch } = useCart()
+  const { totalCount, openCart, openSearch, openTrackModal } = useCart()
 
   const activeItem = navItems.find((i) => i.label === activeMenu && i.children)
 
@@ -58,11 +58,21 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            onClick={openTrackModal}
+            aria-label="Track Order Status"
+            className="flex items-center gap-1.5 rounded-full border border-[#5d1019]/30 bg-[#5d1019]/5 px-3 py-1.5 text-xs font-bold text-[#5d1019] transition-all hover:bg-[#5d1019] hover:text-white shadow-sm"
+            title="Track order status by phone number"
+          >
+            <Truck className="h-4 w-4" />
+            <span className="hidden sm:inline">Track Order</span>
+          </button>
+
           <button
             onClick={openSearch}
             aria-label="Search catalog"
-            className="rounded-full p-2.5 text-[#5d1019] transition-all hover:bg-muted lg:hidden"
+            className="rounded-full p-2 text-[#5d1019] transition-all hover:bg-muted lg:hidden"
           >
             <Search className="h-5 w-5" />
           </button>

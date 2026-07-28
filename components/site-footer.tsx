@@ -1,9 +1,14 @@
+'use client'
+
 import Link from 'next/link'
-import { Phone, Mail, MapPin } from 'lucide-react'
+import { Phone, Mail, MapPin, Truck } from 'lucide-react'
 import { Logo } from './logo'
 import { navItems } from '@/lib/navigation'
+import { useCart } from '@/lib/cart-context'
 
 export function SiteFooter() {
+  const { openTrackModal } = useCart()
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-3 lg:px-8">
@@ -24,6 +29,15 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
+            <li>
+              <button
+                onClick={openTrackModal}
+                className="flex items-center gap-1.5 font-bold text-accent hover:underline transition-colors mt-2"
+              >
+                <Truck className="h-4 w-4" />
+                <span>Track My Order by Phone</span>
+              </button>
+            </li>
           </ul>
         </div>
 

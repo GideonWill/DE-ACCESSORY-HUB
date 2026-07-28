@@ -49,7 +49,7 @@ export function CheckoutModal() {
 
   if (!isCheckoutOpen) return null
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
@@ -65,9 +65,11 @@ export function CheckoutModal() {
       bulkNotes: orderBulkNotes,
       items,
       subtotal,
+      paymentMethod: paymentMethod === 'paystack' ? 'Paystack Ghana (MoMo / Card)' : 'Pay on Delivery',
     })
 
     setOrderRef(newOrd.id)
+    clearCart()
 
     // Build WhatsApp message
     let lineItemsText = items
@@ -96,6 +98,45 @@ export function CheckoutModal() {
 
     const whatsappUrl = `https://wa.me/233277811521?text=${encodeURIComponent(waText)}`
 
+    if (paymentMethod === 'paystack') {
+      try {
+        const callbackUrl = typeof window !== 'undefined'
+          ? `${window.location.origin}/?payment=success&orderRef=${newOrd.id}`
+          : undefined
+
+        const res = await fetch('/api/paystack/initialize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email || 'gideonogunu@gmail.com',
+            amount: subtotal,
+            callback_url: callbackUrl,
+            metadata: {
+              orderRef: newOrd.id,
+              customerName: fullName,
+              phone,
+              address,
+              region,
+              trackLength: orderTrackLength,
+              motorSpec: orderMotorSpec,
+              bulkNotes: orderBulkNotes,
+            },
+          }),
+        })
+
+        const payData = await res.json()
+
+        if (payData.status && payData.authorization_url) {
+          // Redirect customer directly to Paystack Ghana MoMo / Card Checkout Page
+          window.location.href = payData.authorization_url
+          return
+        }
+      } catch (err) {
+        console.error('Paystack transaction error:', err)
+      }
+    }
+
+    // Pay on Doorstep Delivery flow: Open WhatsApp notification and show success screen
     setTimeout(() => {
       window.open(whatsappUrl, '_blank')
       setIsSubmitting(false)
